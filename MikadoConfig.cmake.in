@@ -1,0 +1,47 @@
+# This works with
+# http://www.cmake.org/cmake/help/v2.8.8/cmake.html#module:CMakePackageConfigHelpers
+#
+@PACKAGE_INIT@
+## ---------------------------------------------------------------------------
+## Compilers used by @PROJECT_NAME@ build
+## ---------------------------------------------------------------------------
+
+SET(@PROJECT_NAME@_CXX_COMPILER "@CMAKE_CXX_COMPILER@")
+
+## ---------------------------------------------------------------------------
+## Compiler flags used by @PROJECT_NAME@ build
+## ---------------------------------------------------------------------------
+
+SET(@PROJECT_NAME@_CXX_COMPILER_FLAGS "@CMAKE_CXX_FLAGS@")
+
+## Extra link flags (e.g., specification of fortran libraries)
+SET(@PROJECT_NAME@_EXTRA_LD_FLAGS "@Mikado_EXTRA_LINK_FLAGS@")
+
+SET(@PROJECT_NAME@_LINKER "@CMAKE_LINKER@")
+SET(@PROJECT_NAME@_AR "@CMAKE_AR@")
+
+
+## ---------------------------------------------------------------------------
+## Set library specifications and paths
+## ---------------------------------------------------------------------------
+
+## The project version number
+SET(@PROJECT_NAME@_VERSION "@Mikado_VERSION@")
+
+## The project include file directories.
+SET_AND_CHECK(@PROJECT_NAME@_INCLUDE_DIRS "@PACKAGE_INSTALL_INCLUDE_DIR@")
+
+## The project library directories.
+SET_AND_CHECK(@PROJECT_NAME@_LIBRARY_DIRS "@PACKAGE_INSTALL_LIB_DIR@")
+
+## The project libraries.
+SET(@PROJECT_NAME@_LIBRARIES "@Mikado_CONFIG_LIBRARIES@")
+
+## The project Trilinos include paths
+SET(@PROJECT_NAME@_Trilinos_INCLUDE_DIRS "@Trilinos_INCLUDE_DIRS@")
+SET(@PROJECT_NAME@_Trilinos_LIBRARY_DIRS "@Trilinos_LIBRARY_DIRS@")
+SET(@PROJECT_NAME@_Trilinos_TPL_LIBRARY_DIRS "@Trilinos_TPL_LIBRARY_DIRS@")
+
+## The project Trilinos libraries
+SET(@PROJECT_NAME@_Trilinos_LIBRARIES "@Trilinos_LIBRARIES@")
+SET(@PROJECT_NAME@_Trilinos_TPL_LIBRARIES "@Trilinos_TPL_LIBRARIES@")
