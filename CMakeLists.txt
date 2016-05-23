@@ -1,7 +1,7 @@
 # We need CONFIGURE_PACKAGE_CONFIG_FILE, available from CMake 2.8.8 on.
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8)
 
-PROJECT(mikado CXX)
+PROJECT(Mikado CXX)
 
 IF (NOT Trilinos_Implicit)
   #FIND_PACKAGE(Trilinos REQUIRED)
@@ -13,12 +13,12 @@ IF(NOT ${Trilinos_CXX_COMPILER} STREQUAL ${CMAKE_CXX_COMPILER})
   MESSAGE(WARNING "C++ compilers don't match (Trilinos: ${Trilinos_CXX_COMPILER}, ${PROJECT_NAME}: ${CMAKE_CXX_COMPILER}).")
 ENDIF()
 
-set(mikado_MAJOR_VERSION 0)
-set(mikado_MINOR_VERSION 1)
-set(mikado_PATCH_VERSION 0)
+set(Mikado_MAJOR_VERSION 0)
+set(Mikado_MINOR_VERSION 1)
+set(Mikado_PATCH_VERSION 0)
 set(
-  mikado_VERSION
-  ${mikado_MAJOR_VERSION}.${mikado_MINOR_VERSION}.${mikado_PATCH_VERSION}
+  Mikado_VERSION
+  ${Mikado_MAJOR_VERSION}.${Mikado_MINOR_VERSION}.${Mikado_PATCH_VERSION}
   )
 
 IF(NOT DEFINED CMAKE_BUILD_TYPE)
@@ -56,7 +56,7 @@ endif()
 # Offer the user the choice of overriding the installation directories
 SET(INSTALL_LIB_DIR     "lib"          CACHE PATH "Installation directory for libraries")
 SET(INSTALL_BIN_DIR     "bin"          CACHE PATH "Installation directory for executables")
-SET(INSTALL_INCLUDE_DIR "include/mikado" CACHE PATH "Installation directory for header files")
+SET(INSTALL_INCLUDE_DIR "include/Mikado" CACHE PATH "Installation directory for header files")
 if(WIN32 AND NOT CYGWIN)
   set(DEF_INSTALL_CMAKE_DIR CMake)
 else()
@@ -82,8 +82,8 @@ CONFIGURE_PACKAGE_CONFIG_FILE(
   )
 
 WRITE_BASIC_PACKAGE_VERSION_FILE(
-  ${CMAKE_CURRENT_BINARY_DIR}/mikadoConfigVersion.cmake
-  VERSION ${mikado_VERSION}
+  ${CMAKE_CURRENT_BINARY_DIR}/MikadoConfigVersion.cmake
+  VERSION ${Mikado_VERSION}
   COMPATIBILITY SameMajorVersion
   )
 
