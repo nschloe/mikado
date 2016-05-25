@@ -1,11 +1,6 @@
 #ifndef NOSH_LINEARSOLVER_HPP
 #define NOSH_LINEARSOLVER_HPP
 
-#include "linear_problem.hpp"
-#include "fvm_matrix.hpp"
-#include "expression.hpp"
-#include "function.hpp"
-
 #include <MueLu_Hierarchy.hpp>
 #include <Teuchos_ParameterList.hpp>
 #include <boost/any.hpp>
@@ -67,13 +62,6 @@ namespace nosh {
 
   void
   linear_solve(
-      const nosh::linear_problem & P,
-      nosh::function & x,
-      std::map<std::string, boost::any> solver_params = nosh::default_linear_solver_params
-      );
-
-  void
-  linear_solve(
       const Tpetra::CrsMatrix<double,int,int> & A,
       const Tpetra::Vector<double,int,int> & b,
       Tpetra::Vector<double,int,int> & x,
@@ -107,14 +95,6 @@ namespace nosh {
       const Tpetra::CrsMatrix<double,int,int> & A,
       const Tpetra::Vector<double,int,int> & b,
       Tpetra::Vector<double,int,int> & x,
-      std::map<std::string, boost::any> solver_params = nosh::default_linear_solver_params
-      );
-
-  void
-  scaled_linear_solve(
-      nosh::fvm_matrix & A,
-      const nosh::expression & f,
-      nosh::function & x,
       std::map<std::string, boost::any> solver_params = nosh::default_linear_solver_params
       );
 

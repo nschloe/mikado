@@ -70,7 +70,7 @@ set(
 # Add subdirectories after INSTALL_BIN_DIR has been set.
 ADD_SUBDIRECTORY(src)
 # ADD_SUBDIRECTORY(examples)
-# ADD_SUBDIRECTORY(test)
+ADD_SUBDIRECTORY(test)
 
 # Create and install some helper files.
 INCLUDE(CMakePackageConfigHelpers)

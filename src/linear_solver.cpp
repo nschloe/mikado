@@ -1,7 +1,5 @@
 #include "linear_solver.hpp"
 
-#include "linear_problem.hpp"
-#include "fvm_matrix.hpp"
 #include "helper.hpp"
 
 #include <Amesos2.hpp>
@@ -9,6 +7,7 @@
 #include <Stratimikos_DefaultLinearSolverBuilder.hpp>
 #include <Teuchos_ParameterList.hpp>
 #include <Teuchos_RCP.hpp>
+#include <Teuchos_RCPStdSharedPtrConversions.hpp>
 #include <Thyra_Ifpack2PreconditionerFactory.hpp>
 #include <Thyra_MueLuPreconditionerFactory.hpp>
 #include <Thyra_TpetraThyraWrappers.hpp>
@@ -32,19 +31,6 @@ using OP = Tpetra::CrsMatrix<SC,LO,GO>;
 using NormType = MV::mag_type;
 
 
-// =============================================================================
-void
-nosh::
-linear_solve(
-    const nosh::linear_problem & P,
-    nosh::function & x,
-    std::map<std::string, boost::any> solver_params
-    )
-{
-  // solve
-  linear_solve(*(P.matrix), *(P.rhs), x, solver_params);
-  return;
-}
 // =============================================================================
 void
 nosh::
@@ -305,78 +291,6 @@ linear_solve_muelu(
     *xXpetra,
     std::make_pair(max_cycles, convergence_tolerance)
     );
-
-  return;
-}
-// =============================================================================
-void
-nosh::
-scaled_linear_solve(
-    nosh::fvm_matrix & A,
-    const nosh::expression & f,
-    nosh::function & x,
-    std::map<std::string, boost::any> solver_params
-    )
-{
-  // create f vector
-  auto b = nosh::integrate_over_control_volumes(f, *A.mesh);
-
-  // We cannot scale by the control volumes since the Dirichlet conditions are
-  // already applied now. Small control volumes would lead to huge entries on
-  // the diagonal.
-  //
-  //   const auto scale_vector = A.mesh->control_volumes();
-  //
-  // Hence, simply scale by the diagonal values.
-  Tpetra::Vector<double,int,int> scale_vector(A.getRowMap());
-  A.getLocalDiagCopy(scale_vector);
-
-  auto inv_sqrt_scale_vector =
-    Tpetra::Vector<double,int,int>(scale_vector.getMap());
-
-  auto sc_data = scale_vector.getData();
-  auto inv_sqrt_sc_data = inv_sqrt_scale_vector.getDataNonConst();
-  for (int k = 0; k < sc_data.size(); k++) {
-    inv_sqrt_sc_data[k] = 1.0 / sqrt(sc_data[k]);
-  }
-
-  // scale A
-  A.leftScale(inv_sqrt_scale_vector);
-  A.rightScale(inv_sqrt_scale_vector);
-
-  // scale fvec
-  auto b_data = b->getDataNonConst();
-  for (int k = 0; k < b_data.size(); k++) {
-    b_data[k] *= inv_sqrt_sc_data[k];
-  }
-
-  TEUCHOS_TEST_FOR_EXCEPT(true);
-  // // apply boundary conditions to b
-  // const auto boundary_vertices = A.mesh->boundary_vertices();
-  // for (const auto boundary_vertex: boundary_vertices) {
-  //   const auto coord = A.mesh->get_coords(boundary_vertex);
-  //   for (const auto & bc: A.bcs) {
-  //     TEUCHOS_ASSERT(bc != nullptr);
-  //     if (bc->is_inside(coord)) {
-  //       const auto gid = A.mesh->gid(boundary_vertex);
-  //       // TODO don't check here but only get the array of owned boundary vertices
-  //       // in the first place
-  //       if (b->getMap()->isNodeGlobalElement(gid)) {
-  //         b->replaceGlobalValue(gid, bc->eval(coord));
-  //         break; // only set one bc per boundary point
-  //       }
-  //     }
-  //   }
-  // }
-
-  // solve
-  linear_solve(A, *b, x, solver_params);
-
-  // scale the solution
-  auto x_data = x.getDataNonConst();
-  for (int k = 0; k < x_data.size(); k++) {
-    x_data[k] *= inv_sqrt_sc_data[k];
-  }
 
   return;
 }
