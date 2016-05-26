@@ -26,7 +26,7 @@ before_install:
 
 install:
   - cmake -DBUILD_SHARED_LIBS:BOOL=ON -DENABLE_GCOV:BOOL=ON -DCMAKE_CXX_COMPILER:STRING=mpicxx .
-  - make
+  - make VERBOSE=1
 
 # command to run tests
 script:
