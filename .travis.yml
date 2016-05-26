@@ -25,10 +25,11 @@ before_install:
   # should be added automatically:
   - sudo apt-get install -y libmumps-dev libtbb-dev libhdf5-openmpi-dev liblapack-dev binutils-dev libiberty-dev
   - sudo apt-get install -y trilinos-all-dev
+  - sudo apt-get install -y catch
   - sudo apt install -y cppcheck && cppcheck --enable=all .
 
 install:
-  - cmake -DBUILD_SHARED_LIBS:BOOL=ON -DENABLE_GCOV:BOOL=ON -DCMAKE_CXX_COMPILER:STRING=mpicxx .
+  - cmake -DBUILD_SHARED_LIBS:BOOL=ON -DENABLE_GCOV:BOOL=ON -DCMAKE_CXX_COMPILER:STRING=mpicxx -DCMAKE_SHARED_LINKER_FLAGS="$CMAKE_SHARED_LINKER_FLAGS -Wl,--no-undefined" .
   - make VERBOSE=1
 
 # command to run tests
