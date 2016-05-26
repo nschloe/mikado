@@ -22,7 +22,7 @@ before_install:
   - sudo apt-get install -y libopenmpi-dev openmpi-bin
   - sudo apt-get install -y libboost-dev
   - sudo apt-get install -y libsuperlu-dev
-  - sudo apt-get install -y libmumps-dev libtbb-dev # should be added automatically
+  - sudo apt-get install -y libmumps-dev libtbb-dev libhdf5-dev # should be added automatically
   - sudo apt-get install -y trilinos-all-dev
   - sudo apt install -y cppcheck && cppcheck --enable=all .
 
