@@ -11,7 +11,7 @@
 #include <memory>
 
 using list = std::map<std::string, boost::any>;
-namespace nosh {
+namespace mikado {
   std::shared_ptr<const Tpetra::Vector<double,int,int>>
   nonlinear_solve(
       const std::shared_ptr<Thyra::ModelEvaluatorDefaultBase<double>> & model,

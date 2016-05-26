@@ -33,7 +33,7 @@ using NormType = MV::mag_type;
 
 // =============================================================================
 void
-nosh::
+mikado::
 linear_solve(
     const Tpetra::CrsMatrix<double,int,int> & A,
     const Tpetra::Vector<double,int,int> & b,
@@ -63,7 +63,7 @@ linear_solve(
 }
 // =============================================================================
 void
-nosh::
+mikado::
 linear_solve_amesos2(
     const Tpetra::CrsMatrix<double,int,int> & A,
     const Tpetra::Vector<double,int,int> & b,
@@ -72,7 +72,7 @@ linear_solve_amesos2(
     )
 {
   if (A.getComm()->getRank() == 0) {
-    nosh::show_any(solver_params);
+    mikado::show_any(solver_params);
     std::cout << std::endl;
   }
 
@@ -108,7 +108,7 @@ linear_solve_amesos2(
 }
 // =============================================================================
 void
-nosh::
+mikado::
 linear_solve_belos(
     const Tpetra::Operator<double,int,int> & A,
     const Tpetra::Vector<double,int,int> & b,
@@ -193,7 +193,7 @@ linear_solve_belos(
 }
 // =============================================================================
 std::shared_ptr<MueLu::Hierarchy<double,int,int>>
-nosh::
+mikado::
 get_muelu_hierarchy(
     const Tpetra::CrsMatrix<double,int,int> & A,
     const std::map<std::string, boost::any> & muelu_params
@@ -237,7 +237,7 @@ get_muelu_hierarchy(
 }
 // =============================================================================
 void
-nosh::
+mikado::
 linear_solve_muelu(
     const Tpetra::CrsMatrix<double,int,int> & A,
     const Tpetra::Vector<double,int,int> & b,
@@ -296,7 +296,7 @@ linear_solve_muelu(
 }
 // =============================================================================
 std::map<std::string, boost::any>
-nosh::
+mikado::
 convert_to_belos_parameters(
     const std::map<std::string, boost::any> & in_map
     )

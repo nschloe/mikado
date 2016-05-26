@@ -9,7 +9,7 @@
 #include <memory>
 
 using dict = std::map<std::string, boost::any>;
-namespace nosh {
+namespace mikado {
   // https://trilinos.org/docs/dev/packages/stratimikos/doc/html/index.html
   // http://stackoverflow.com/a/14425299/353337
   /*
@@ -65,7 +65,7 @@ namespace nosh {
       const Tpetra::CrsMatrix<double,int,int> & A,
       const Tpetra::Vector<double,int,int> & b,
       Tpetra::Vector<double,int,int> & x,
-      std::map<std::string, boost::any> solver_params = nosh::default_linear_solver_params
+      std::map<std::string, boost::any> solver_params = mikado::default_linear_solver_params
       );
 
   void
@@ -73,7 +73,7 @@ namespace nosh {
       const Tpetra::CrsMatrix<double,int,int> & A,
       const Tpetra::Vector<double,int,int> & b,
       Tpetra::Vector<double,int,int> & x,
-      std::map<std::string, boost::any> solver_params = nosh::default_linear_solver_params
+      std::map<std::string, boost::any> solver_params = mikado::default_linear_solver_params
       );
 
   void
@@ -81,7 +81,7 @@ namespace nosh {
       const Tpetra::Operator<double,int,int> & A,
       const Tpetra::Vector<double,int,int> & b,
       Tpetra::Vector<double,int,int> & x,
-      std::map<std::string, boost::any> solver_params = nosh::default_linear_solver_params
+      std::map<std::string, boost::any> solver_params = mikado::default_linear_solver_params
       );
 
   std::shared_ptr<MueLu::Hierarchy<double,int,int>>
@@ -95,7 +95,7 @@ namespace nosh {
       const Tpetra::CrsMatrix<double,int,int> & A,
       const Tpetra::Vector<double,int,int> & b,
       Tpetra::Vector<double,int,int> & x,
-      std::map<std::string, boost::any> solver_params = nosh::default_linear_solver_params
+      std::map<std::string, boost::any> solver_params = mikado::default_linear_solver_params
       );
 
   std::map<std::string, boost::any>

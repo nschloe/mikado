@@ -11,7 +11,7 @@
 #include <map>
 
 // =============================================================================
-namespace nosh {
+namespace mikado {
   class nonlinear_observer: public Piro::ObserverBase<double>
   {
     public:
@@ -33,7 +33,7 @@ namespace nosh {
 }
 // =============================================================================
 std::shared_ptr<const Tpetra::Vector<double,int,int>>
-nosh::
+mikado::
 nonlinear_solve(
     const std::shared_ptr<Thyra::ModelEvaluatorDefaultBase<double>> & model,
     std::map<std::string, boost::any> solver_params
@@ -100,7 +100,7 @@ nonlinear_solve(
 }
 // =============================================================================
 void
-nosh::
+mikado::
 parameter_continuation(
     const std::shared_ptr<Thyra::ModelEvaluatorDefaultBase<double>> & model,
     const std::shared_ptr<LOCA::Thyra::SaveDataStrategy> & data_saver,
