@@ -7,17 +7,7 @@ using dict = std::map<std::string, boost::any>;
 // ===========================================================================
 TEST_CASE("dummy test", "[dummy]")
 {
-  const dict & map =
-  {
-    {"method", std::string("Pseudo Block CG")},
-    {"parameters", dict{
-      {"Convergence Tolerance", 1.0e-10},
-      {"Output Frequency", 1},
-      {"Output Style", 1},
-      {"Verbosity", 33}
-    }},
-    {"preconditioner", std::string("MueLu")}
-  };
+  const dict & map = {};
 
   const auto out = mikado::convert_to_belos_parameters(map);
 
