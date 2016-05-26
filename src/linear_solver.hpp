@@ -15,15 +15,15 @@ namespace nosh {
   /*
   static
   const std::map<std::string, boost::any> default_linear_solver_params = {
-    {"package", "Belos"},
-    {"method", "Pseudo Block GMRES"},
+    {"package", std::string("Belos")},
+    {"method", std::string("Pseudo Block GMRES")},
     {"parameters", dict{
       {"Convergence Tolerance", 1.0e-10},
       {"Output Frequency", 1},
       {"Output Style", 1},
       {"Verbosity", 33}
     }},
-    {"preconditioner", "MueLu"},
+    {"preconditioner", std::string("MueLu")},
     {"preconditioner parameters", dict{
     }}
   };
@@ -31,22 +31,22 @@ namespace nosh {
 
   static
   const std::map<std::string, boost::any> default_linear_solver_params = {
-    {"package", "Amesos2"},
+    {"package", std::string("Amesos2")},
     {"parameters", dict{}}
   };
 
   //static
   //const std::map<std::string, boost::any> default_linear_solver_params = {
-  //  {"package", "MueLu"},
+  //  {"package", std::string("MueLu")},
   //  {"parameters", dict{}}
   //};
 
   //std::map<std::string, boost::any> default_linear_solver_params =
   //{
-  //  {"Linear Solver Type", "Belos"},
+  //  {"Linear Solver Type", std::string("Belos")},
   //  {"Linear Solver Types", dict{
   //    {"Belos", dict{
-  //      {"Solver Type", "Pseudo Block GMRES"},
+  //      {"Solver Type", std::string("Pseudo Block GMRES")},
   //      {"Solver Types", dict{
   //        {"Pseudo Block GMRES", dict{
   //          {"Convergence Tolerance", 1.0e-10},
@@ -57,7 +57,7 @@ namespace nosh {
   //      }}
   //    }}
   //  }},
-  //  {"Preconditioner Type", "None"}
+  //  {"Preconditioner Type", std::string("None")}
   //};
 
   void
