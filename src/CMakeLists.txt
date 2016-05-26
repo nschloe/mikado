@@ -7,6 +7,13 @@ INCLUDE_DIRECTORIES(
   ${Trilinos_TPL_INCLUDE_DIRS}
 )
 
+message("Trilinos_INCLUDE_DIRS: ${Trilinos_INCLUDE_DIRS}")
+message("Trilinos_LIBRARY_DIRS: ${Trilinos_LIBRARY_DIRS}")
+message("Trilinos_LIBRARIES: ${Trilinos_LIBRARIES}")
+message("Trilinos_TPL_INCLUDE_DIRS: ${Trilinos_TPL_INCLUDE_DIRS}")
+message("Trilinos_TPL_LIBRARY_DIRS: ${Trilinos_TPL_LIBRARY_DIRS}")
+message("Trilinos_TPL_LIBRARIES: ${Trilinos_TPL_LIBRARIES}")
+
 FILE(GLOB mikado_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 FILE(GLOB mikado_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp")
 
