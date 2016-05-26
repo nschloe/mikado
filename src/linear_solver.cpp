@@ -310,7 +310,7 @@ convert_to_belos_parameters(
   const std::string method =
     boost::any_cast<const char *>(in_map.at("method"));
 
-  out_map.insert({"Linear Solver Type", "Belos"});
+  out_map.insert({"Linear Solver Type", std::string("Belos")});
   out_map.insert({"Linear Solver Types", dict{
       {"Belos", dict{{"Solver Type", method}}}
       }});
