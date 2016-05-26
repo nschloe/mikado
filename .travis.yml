@@ -19,6 +19,7 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install -y cmake
   - sudo apt-get install -y libopenmpi-dev openmpi-bin
+  - sudo apt-get install -y libtrilinos-epetraext12
   - sudo apt-get install -y libtrilinos-amesos12
   - sudo apt-get install -y libtrilinos-amesos-dev
   - sudo apt-get install -y trilinos-all-dev
