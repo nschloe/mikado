@@ -16,7 +16,8 @@ before_install:
   # Get Trilinos.
   - sudo add-apt-repository -y ppa:nschloe/trilinos-nightly
   - sudo apt-get update
-  - sudo apt-get install cmake-data cmake
+  - sudo apt-get install cmake
+  - sudo apt-get install openmpi-bin
   - sudo apt-get install trilinos-dev
   - sudo apt install cppcheck -y && cppcheck --enable=all .
 
