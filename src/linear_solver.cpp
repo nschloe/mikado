@@ -345,7 +345,7 @@ convert_to_belos_parameters(
   //    }
   // Since we'd like to use MueLu, Ifpack2, and so forth, set it to "None" here
   // and handle the preconditioner separately.
-  out_map.insert({"Preconditioner Type", "None"});
+  out_map.insert({"Preconditioner Type", std::string("None")});
 
   return out_map;
 }
