@@ -1,5 +1,7 @@
 #include <catch.hpp>
 
+#include <mikado.hpp>
+
 // ===========================================================================
 TEST_CASE("dummy test", "[dummy]")
 {
