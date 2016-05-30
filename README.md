@@ -11,13 +11,13 @@ nonlinear Trilinos solvers.
 
 For example, given a Tpetra::CrsMatrix `A` and two vector `b` and `x, solving a
 linear system is as easy as
-```
+```c++
 mikado::linear_solve(A, b, x);
 ```
 This uses the default solver (Amesos2 with KLU2).
 
 If you would like to shake things up a little, just use
-```
+```c++
 using dict = std::map<std::string, boost::any>;
 mikado::linear_solve(
     A, b, x, dict{
@@ -34,7 +34,7 @@ mikado::linear_solve(
     );
 ```
 or
-```
+```c++
 mikado::linear_solve(
     A, b, x, dict{{"package", "MueLu"}}
     );
