@@ -36,6 +36,12 @@ namespace mikado {
     {"parameters", dict{}}
   };
 
+  static
+  const std::map<std::string, boost::any> default_belos_params = {
+    {"method", std::string("Pseudo Block GMRES")},
+    {"parameters", dict{}}
+  };
+
   //static
   //const std::map<std::string, boost::any> default_linear_solver_params = {
   //  {"package", std::string("MueLu")},
@@ -82,7 +88,7 @@ namespace mikado {
       const Tpetra::Operator<double,int,int> & A,
       const Tpetra::Vector<double,int,int> & b,
       Tpetra::Vector<double,int,int> & x,
-      std::map<std::string, boost::any> solver_params = mikado::default_linear_solver_params
+      std::map<std::string, boost::any> solver_params = mikado::default_belos_params
       );
 
   std::shared_ptr<MueLu::Hierarchy<double,int,int>>

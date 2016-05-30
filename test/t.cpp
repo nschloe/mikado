@@ -63,4 +63,48 @@ TEST_CASE("default solver", "[default]")
   REQUIRE(x_data[1] == 2);
   REQUIRE(x_data[2] == 3);
 }
+// ===========================================================================
+TEST_CASE("Belos solver", "[belos]")
+{
+  const auto comm = Teuchos::DefaultComm<int>::getComm();
+
+  const auto A = create_matrix(comm);
+
+  mikado::show_tpetra_crs_matrix(*A);
+
+  auto b = Tpetra::Vector<double,int,int>(A->getRangeMap());
+  b.putScalar(1.0);
+
+  auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
+  x.putScalar(1.0);
+
+  mikado::linear_solve_belos(*A, b, x);
+
+  const auto x_data = x.getData();
+  REQUIRE(x_data[0] == 1);
+  REQUIRE(x_data[1] == 2);
+  REQUIRE(x_data[2] == 3);
+}
+// ===========================================================================
+TEST_CASE("MueLu solver", "[muelu]")
+{
+  const auto comm = Teuchos::DefaultComm<int>::getComm();
+
+  const auto A = create_matrix(comm);
+
+  mikado::show_tpetra_crs_matrix(*A);
+
+  auto b = Tpetra::Vector<double,int,int>(A->getRangeMap());
+  b.putScalar(1.0);
+
+  auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
+  x.putScalar(1.0);
+
+  mikado::linear_solve_muelu(*A, b, x);
+
+  const auto x_data = x.getData();
+  REQUIRE(x_data[0] == 1);
+  REQUIRE(x_data[1] == 2);
+  REQUIRE(x_data[2] == 3);
+}
 // ============================================================================
