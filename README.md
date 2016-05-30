@@ -9,7 +9,7 @@ Trilinos is powerful, but notoriously hard to use. Mikado tries to make things
 a little bit easier by providing a simple user interface for various linear and
 nonlinear Trilinos solvers.
 
-For example, given a Tpetra::CrsMatrix `A` and two vector `b` and `x, solving a
+For example, given a Tpetra::CrsMatrix `A` and two vector `b` and `x`, solving a
 linear system is as easy as
 ```c++
 mikado::linear_solve(A, b, x);
