@@ -1,5 +1,8 @@
 #include <catch.hpp>
 
+#include <Teuchos_DefaultComm.hpp>
+#include <Tpetra_CrsMatrix.hpp>
+
 #include <mikado.hpp>
 
 using dict = std::map<std::string, boost::any>;
