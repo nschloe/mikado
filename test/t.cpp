@@ -59,9 +59,9 @@ TEST_CASE("default solver", "[default]")
   mikado::linear_solve(*A, b, x);
 
   const auto x_data = x.getData();
-  REQUIRE(x_data[0] == 1);
-  REQUIRE(x_data[1] == 2);
-  REQUIRE(x_data[2] == 3);
+  REQUIRE(x_data[0] == Approx(1.0));
+  REQUIRE(x_data[1] == Approx(2.0));
+  REQUIRE(x_data[2] == Approx(3.0));
 }
 // ===========================================================================
 TEST_CASE("Belos solver", "[belos]")
@@ -81,9 +81,9 @@ TEST_CASE("Belos solver", "[belos]")
   mikado::linear_solve_belos(*A, b, x);
 
   const auto x_data = x.getData();
-  REQUIRE(x_data[0] == 1);
-  REQUIRE(x_data[1] == 2);
-  REQUIRE(x_data[2] == 3);
+  REQUIRE(x_data[0] == Approx(1.0));
+  REQUIRE(x_data[1] == Approx(2.0));
+  REQUIRE(x_data[2] == Approx(3.0));
 }
 // ===========================================================================
 TEST_CASE("MueLu solver", "[muelu]")
@@ -103,8 +103,8 @@ TEST_CASE("MueLu solver", "[muelu]")
   mikado::linear_solve_muelu(*A, b, x);
 
   const auto x_data = x.getData();
-  REQUIRE(x_data[0] == 1);
-  REQUIRE(x_data[1] == 2);
-  REQUIRE(x_data[2] == 3);
+  REQUIRE(x_data[0] == Approx(1.0));
+  REQUIRE(x_data[1] == Approx(2.0));
+  REQUIRE(x_data[2] == Approx(3.0));
 }
 // ============================================================================
