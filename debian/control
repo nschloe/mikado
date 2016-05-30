@@ -8,7 +8,8 @@ Build-Depends: debhelper (>= 9),
   libboost-dev,
   libsuperlu-dev,
   libptscotch-dev,
-  libmumps-dev
+  libmumps-dev,
+  libtbb-dev
 Standards-Version: 3.9.6
 Section: libs
 Homepage: https://github.com/gdsjaar/mikado
