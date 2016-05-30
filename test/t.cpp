@@ -78,7 +78,19 @@ TEST_CASE("Belos solver", "[belos]")
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
   x.putScalar(1.0);
 
-  mikado::linear_solve_belos(*A, b, x);
+  mikado::linear_solve(
+      *A, b, x, dict{
+        {"package", "Belos"},
+        {"method", "Pseudo Block GMRES"},
+        {"parameters", dict{
+          {"Convergence Tolerance", 1.0e-10},
+          {"Output Frequency", 1},
+          {"Output Style", 1},
+          {"Verbosity", 33}
+        }},
+        {"preconditioner", "MueLu"}
+      }
+      );
 
   const auto x_data = x.getData();
   REQUIRE(x_data[0] == Approx(1.0));
@@ -100,7 +112,11 @@ TEST_CASE("MueLu solver", "[muelu]")
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
   x.putScalar(1.0);
 
-  mikado::linear_solve_muelu(*A, b, x);
+  mikado::linear_solve(
+      *A, b, x, dict{
+        {"package", "MueLu"}
+      }
+      );
 
   const auto x_data = x.getData();
   REQUIRE(x_data[0] == Approx(1.0));
