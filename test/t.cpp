@@ -33,7 +33,7 @@ create_matrix(
     A->insertGlobalValues(
         myGlobalElements[i],
         Teuchos::tuple(myGlobalElements[i]),
-        Teuchos::tuple(1.0 / myGlobalElements[i])
+        Teuchos::tuple(1.0 / (myGlobalElements[i] + 1))
         );
   }
 
@@ -42,7 +42,7 @@ create_matrix(
   return A;
 }
 // ===========================================================================
-TEST_CASE("dummy test", "[dummy]")
+TEST_CASE("default solver", "[default]")
 {
   const auto comm = Teuchos::DefaultComm<int>::getComm();
 
@@ -58,8 +58,9 @@ TEST_CASE("dummy test", "[dummy]")
 
   mikado::linear_solve(*A, b, x);
 
-  // const dict & map = {};
-  // const auto out = mikado::convert_to_belos_parameters(map);
-  // mikado::show_map(out);
+  const auto x_data = x.getData();
+  REQUIRE(x_data[0] == 1);
+  REQUIRE(x_data[1] == 2);
+  REQUIRE(x_data[2] == 3);
 }
 // ============================================================================

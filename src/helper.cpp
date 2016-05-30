@@ -52,9 +52,7 @@ namespace mikado
     )
   {
     auto out = Teuchos::VerboseObjectBase::getDefaultOStream();
-    std::cout << "XXXXXXXXXX" << std::endl;
     A.describe(*out);
-    std::cout << "XXXXXXXXXX" << std::endl;
   }
 
   void
