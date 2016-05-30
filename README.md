@@ -1,6 +1,7 @@
 # Mikado
 
 [![Build Status](https://travis-ci.org/nschloe/mikado.svg?branch=master)](https://travis-ci.org/nschloe/mikado)
+[![codecov](https://codecov.io/gh/nschloe/mikado/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/mikado)
 
 Trilinos is powerful, but notiriously hard to use. Mikado tries to make things
 a little bit easier by providing a simple user interface for various linear and
