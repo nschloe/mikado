@@ -53,10 +53,12 @@ if(ENABLE_GCOV)
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --coverage")
 endif()
 
+include(GnuInstallDirs)
+
 # Offer the user the choice of overriding the installation directories
-SET(INSTALL_LIB_DIR     "lib"          CACHE PATH "Installation directory for libraries")
-SET(INSTALL_BIN_DIR     "bin"          CACHE PATH "Installation directory for executables")
-SET(INSTALL_INCLUDE_DIR "include/Mikado" CACHE PATH "Installation directory for header files")
+SET(INSTALL_LIB_DIR     "${CMAKE_INSTALL_LIBDIR}"          CACHE PATH "Installation directory for libraries")
+SET(INSTALL_BIN_DIR     "${CMAKE_INSTALL_BINDIR}"          CACHE PATH "Installation directory for executables")
+SET(INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/mikado" CACHE PATH "Installation directory for header files")
 if(WIN32 AND NOT CYGWIN)
   set(DEF_INSTALL_CMAKE_DIR CMake)
 else()
