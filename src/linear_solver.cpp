@@ -45,8 +45,15 @@ linear_solve(
       solver_params.find("package") == solver_params.end(),
       "Missing key \"package\" in solver parameters."
       )
-  const std::string package =
-    boost::any_cast<const char *>(solver_params.at("package"));
+
+  std::string package;
+  try {
+    package = boost::any_cast<std::string>(solver_params.at("package"));
+  }
+  catch (boost::bad_any_cast) {
+    package = boost::any_cast<const char *>(solver_params.at("package"));
+  }
+
   if (package == "Amesos2") {
       linear_solve_amesos2(A, b, x, solver_params);
   } else if (package == "Belos") {
@@ -76,7 +83,15 @@ linear_solve_amesos2(
     std::cout << std::endl;
   }
 
-  std::string method = boost::any_cast<const char*>(solver_params.at("method"));
+  show_map(solver_params);
+  std::string method;
+  try {
+    show_any(solver_params.at("method"));
+    method = boost::any_cast<std::string>(solver_params.at("method"));
+  }
+  catch (boost::bad_any_cast) {
+    method = boost::any_cast<const char *>(solver_params.at("method"));
+  }
   auto solver = Amesos2::create<OP,MV>(
         method,
         Teuchos::rcpFromRef(A),
@@ -142,8 +157,15 @@ linear_solve_belos(
         );
   } else {
     // handle preconditioner
-    const std::string prec_type =
-      boost::any_cast<const char *>(solver_params.at("preconditioner"));
+    std::string prec_type;
+    try {
+      prec_type =
+        boost::any_cast<std::string>(solver_params.at("preconditioner"));
+    }
+    catch (boost::bad_any_cast) {
+      prec_type =
+        boost::any_cast<const char *>(solver_params.at("preconditioner"));
+    }
     Teuchos::RCP<Thyra::PreconditionerFactoryBase<double>> factory;
     if (prec_type == "Ifpack2") {
       factory = Teuchos::rcp(
@@ -307,8 +329,13 @@ convert_to_belos_parameters(
     return out_map;
   }
 
-  const std::string method =
-    boost::any_cast<const char *>(in_map.at("method"));
+  std::string method;
+  try {
+    method = boost::any_cast<std::string>(in_map.at("method"));
+  }
+  catch (boost::bad_any_cast) {
+    method = boost::any_cast<const char *>(in_map.at("method"));
+  }
 
   out_map.insert({"Linear Solver Type", std::string("Belos")});
   out_map.insert({"Linear Solver Types", dict{

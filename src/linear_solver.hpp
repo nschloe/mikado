@@ -32,6 +32,7 @@ namespace mikado {
   static
   const std::map<std::string, boost::any> default_linear_solver_params = {
     {"package", std::string("Amesos2")},
+    {"method", std::string("KLU2")},
     {"parameters", dict{}}
   };
 
