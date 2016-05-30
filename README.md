@@ -46,7 +46,7 @@ mikado::linear_solve(
 
 If you're using Ubuntu, you can get Mikado from a dedicated PPA at
 https://launchpad.net/~nschloe/+archive/ubuntu/mikado-nightly/. Simply
-```
+```sh
 sudo apt-add-repository ppa:nschloe/fenics-nightly
 sudo apt update
 sudo apt install libmikado-dev
@@ -58,7 +58,7 @@ Mikado uses CMake for configuration. Make sure to have Trilinos (optionally
 with MPI) and Boost and Boost installed on your system. Get Mikado (e.g.,
 [from GitHub](https://github.com/nschloe/mikado)) and configure and make as
 usual with
-```
+```sh
 cmake path/to/mikado-source  # possibly with more CMake options
 make
 make install
