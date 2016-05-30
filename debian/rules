@@ -9,4 +9,5 @@ export DH_VERBOSE=1
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
-  -DBUILD_SHARED_LIBS:BOOL=ON
+  -DBUILD_SHARED_LIBS:BOOL=ON \
+  -DCMAKE_CXX_COMPILER:PATH=/usr/bin/mpicxx
