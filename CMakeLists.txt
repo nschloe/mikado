@@ -53,7 +53,7 @@ if(ENABLE_GCOV)
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --coverage")
 endif()
 
-include(GnuInstallDirs)
+INCLUDE(GNUInstallDirs)
 
 # Offer the user the choice of overriding the installation directories
 SET(INSTALL_LIB_DIR     "${CMAKE_INSTALL_LIBDIR}"          CACHE PATH "Installation directory for libraries")
