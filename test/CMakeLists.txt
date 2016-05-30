@@ -9,7 +9,7 @@ INCLUDE_DIRECTORIES(SYSTEM
 SET(internal_LIBS "mikado")
 
 SET(MIKADOTEST_EXECUTABLE "mikadoTest")
-ADD_EXECUTABLE (${MIKADOTEST_EXECUTABLE} t.cpp main.cpp)
+ADD_EXECUTABLE (${MIKADOTEST_EXECUTABLE} linear.cpp main.cpp)
 # add tests
 ADD_TEST(mikadoTestSerial ${MIKADOTEST_EXECUTABLE})
 # Check out FindMPI.cmake for proper syntax.
