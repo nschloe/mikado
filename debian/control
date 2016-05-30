@@ -1,0 +1,25 @@
+Source: mikado
+Priority: extra
+Maintainer: Nico Schlömer <nico.schloemer@gmail.com>
+Build-Depends: debhelper (>= 9),
+  cmake (>= 2.8.8),
+  trilinos-dev
+Standards-Version: 3.9.6
+Section: libs
+Homepage: https://github.com/gdsjaar/mikado
+
+Package: libmikado-dev
+Section: libdevel
+Architecture: any
+Depends: libmikado0 (= ${binary:Version}), ${misc:Depends}
+Description: friendly solver interfaces for Trilinos
+  .
+  This package contains development headers.
+
+Package: libmikado0
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: friendly solver interfaces for Trilinos
+  .
+  This package contains the libraries.
