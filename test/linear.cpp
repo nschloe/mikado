@@ -110,7 +110,7 @@ TEST_CASE("MueLu solver", "[muelu]")
 
   mikado::linear_solve(
       *A, b, x, dict{
-        {"package", "MueLu"}
+        {"package", std::string("MueLu")}
       }
       );
 
