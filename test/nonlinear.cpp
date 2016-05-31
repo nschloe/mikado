@@ -183,8 +183,8 @@ public:
     Stratimikos::DefaultLinearSolverBuilder builder;
 
     const std::map<std::string, boost::any> linear_solver_params = {
-      {"package", "Belos"},
-      {"method", "Pseudo Block GMRES"},
+      {"package", std::string("Belos")},
+      {"method", std::string("Pseudo Block GMRES")},
       {"parameters", dict{
         {"Output Frequency", 1},
         {"Output Style", 1},
@@ -343,7 +343,7 @@ TEST_CASE("nonlinear solver", "[nonlinear]")
   const auto sol = mikado::nonlinear_solve(
       model,
       {
-        {"method", "Newton"}
+        {"method", std::string("Newton")}
       }
       );
 
