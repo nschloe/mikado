@@ -13,7 +13,7 @@ create_matrix(
     const Teuchos::RCP<const Teuchos::Comm<int>> & comm
     )
 {
-  const Tpetra::global_size_t numGlobalElements = 1000;
+  const Tpetra::global_size_t numGlobalElements = 100;
 
   // Construct a Map that puts approximately the same number of
   // equations on each processor.
@@ -62,9 +62,11 @@ TEST_CASE("default solver", "[default]")
   mikado::linear_solve(*A, b, x);
 
   const auto x_data = x.getData();
-  REQUIRE(x_data[0] == Approx(1.0));
-  REQUIRE(x_data[1] == Approx(2.0));
-  REQUIRE(x_data[2] == Approx(3.0));
+  const auto myGlobalElements = x.getMap()->getNodeElementList();
+  REQUIRE(myGlobalElements.size() == x_data.size());
+  for (size_t i = 0; i < myGlobalElements.size(); i++) {
+    REQUIRE(x_data[i] == Approx(myGlobalElements[i] + 1));
+  }
 }
 // ===========================================================================
 TEST_CASE("Belos solver", "[belos]")
@@ -90,9 +92,11 @@ TEST_CASE("Belos solver", "[belos]")
       );
 
   const auto x_data = x.getData();
-  REQUIRE(x_data[0] == Approx(1.0));
-  REQUIRE(x_data[1] == Approx(2.0));
-  REQUIRE(x_data[2] == Approx(3.0));
+  const auto myGlobalElements = x.getMap()->getNodeElementList();
+  REQUIRE(myGlobalElements.size() == x_data.size());
+  for (size_t i = 0; i < myGlobalElements.size(); i++) {
+    REQUIRE(x_data[i] == Approx(myGlobalElements[i] + 1));
+  }
 }
 // ===========================================================================
 TEST_CASE("MueLu solver", "[muelu]")
@@ -116,8 +120,10 @@ TEST_CASE("MueLu solver", "[muelu]")
       );
 
   const auto x_data = x.getData();
-  REQUIRE(x_data[0] == Approx(1.0));
-  REQUIRE(x_data[1] == Approx(2.0));
-  REQUIRE(x_data[2] == Approx(3.0));
+  const auto myGlobalElements = x.getMap()->getNodeElementList();
+  REQUIRE(myGlobalElements.size() == x_data.size());
+  for (size_t i = 0; i < myGlobalElements.size(); i++) {
+    REQUIRE(x_data[i] == Approx(myGlobalElements[i] + 1));
+  }
 }
 // ============================================================================

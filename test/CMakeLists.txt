@@ -12,13 +12,9 @@ SET(LINEARTEST_EXECUTABLE "linearTest")
 ADD_EXECUTABLE (${LINEARTEST_EXECUTABLE} linear.cpp main.cpp)
 # add tests
 ADD_TEST(linearTestSerial ${LINEARTEST_EXECUTABLE})
-# Check out FindMPI.cmake for proper syntax.
-# ADD_TEST(ioTestMpi2
-#   ${Trilinos_MPI_EXEC} --noprefix ${Trilinos_MPI_EXEC_NUMPROCS_FLAG} 2 ${IOTEST_EXECUTABLE}
-#   )
-# ADD_TEST(ioTestMpi7
-#   ${Trilinos_MPI_EXEC} --noprefix ${Trilinos_MPI_EXEC_NUMPROCS_FLAG} 7 ${IOTEST_EXECUTABLE}
-#   )
+ADD_TEST(linearTestMpi3
+  ${Trilinos_MPI_EXEC} --noprefix ${Trilinos_MPI_EXEC_NUMPROCS_FLAG} 3 ${LINEARTEST_EXECUTABLE}
+  )
 TARGET_LINK_LIBRARIES(${LINEARTEST_EXECUTABLE} ${internal_LIBS})
 
 SET(NONLINEARTEST_EXECUTABLE "nonlinearTest")
