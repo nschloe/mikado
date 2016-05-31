@@ -464,8 +464,8 @@ TEST_CASE("parameter continuation", "[param cont]")
       {
         {"NOX", dict{
           {"Status Tests", dict{
-            {"Test Type", "NormF"},
-            {"Norm Type", "Two Norm"},
+            {"Test Type", std::string("NormF")},
+            {"Norm Type", std::string("Two Norm")},
             {"Tolerance", 1.0e-8}
           }},
           {"Printing", dict{
@@ -491,8 +491,8 @@ TEST_CASE("parameter continuation", "[param cont]")
             {"Method", "Tangent"}
           }},
           {"Stepper", dict{
-            {"Continuation Method", "Arc Length"},
-            {"Continuation Parameter", "alpha"},
+            {"Continuation Method", std::string("Arc Length")},
+            {"Continuation Parameter", std::string("alpha")},
             {"Initial Value", 1.0},
             {"Min Value", 0.0},
             {"Max Value", 3.0},
