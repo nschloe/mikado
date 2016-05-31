@@ -84,7 +84,8 @@ TEST_CASE("Belos solver", "[belos]")
   mikado::linear_solve(
       *A, b, x, dict{
         {"package", std::string("Belos")},
-        {"method", std::string("Pseudo Block GMRES")}
+        {"method", std::string("Pseudo Block GMRES")},
+        {"preconditioner", std::string("MueLu")}
       }
       );
 
