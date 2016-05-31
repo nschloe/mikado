@@ -81,7 +81,12 @@ TEST_CASE("Belos solver", "[belos]")
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
   x.putScalar(1.0);
 
-  mikado::linear_solve_belos(*A, b, x);
+  mikado::linear_solve(
+      *A, b, x, dict{
+        {"package", std::string("Belos")},
+        {"method", std::string("Pseudo Block GMRES")}
+      }
+      );
 
   const auto x_data = x.getData();
   REQUIRE(x_data[0] == Approx(1.0));
