@@ -86,4 +86,14 @@ namespace mikado
     }
     return;
   }
+
+  std::string
+  any_to_string(const boost::any & in) {
+    try {
+      return boost::any_cast<std::string>(in);
+    }
+    catch (boost::bad_any_cast) {
+      return boost::any_cast<const char *>(in);
+    }
+  }
 }
