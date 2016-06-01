@@ -51,13 +51,11 @@ TEST_CASE("default solver", "[default]")
 
   const auto A = create_matrix(comm);
 
-  mikado::show_tpetra_crs_matrix(*A);
-
   auto b = Tpetra::Vector<double,int,int>(A->getRangeMap());
   b.putScalar(1.0);
 
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
-  x.putScalar(1.0);
+  x.putScalar(0.0);
 
   mikado::linear_solve(*A, b, x);
 
@@ -75,13 +73,11 @@ TEST_CASE("Belos solver (no preconditioner)", "[belos no prec]")
 
   const auto A = create_matrix(comm);
 
-  mikado::show_tpetra_crs_matrix(*A);
-
   auto b = Tpetra::Vector<double,int,int>(A->getRangeMap());
   b.putScalar(1.0);
 
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
-  x.putScalar(1.0);
+  x.putScalar(0.0);
 
   mikado::linear_solve(
       *A, b, x, dict{
@@ -104,13 +100,11 @@ TEST_CASE("Belos solver with MueLu preconditioner", "[belos muelu]")
 
   const auto A = create_matrix(comm);
 
-  mikado::show_tpetra_crs_matrix(*A);
-
   auto b = Tpetra::Vector<double,int,int>(A->getRangeMap());
   b.putScalar(1.0);
 
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
-  x.putScalar(1.0);
+  x.putScalar(0.0);
 
   mikado::linear_solve(
       *A, b, x, dict{
@@ -134,13 +128,11 @@ TEST_CASE("Belos solver with MueLu preconditioner", "[belos muelu]")
 //
 //   const auto A = create_matrix(comm);
 //
-//   mikado::show_tpetra_crs_matrix(*A);
-//
 //   auto b = Tpetra::Vector<double,int,int>(A->getRangeMap());
 //   b.putScalar(1.0);
 //
 //   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
-//   x.putScalar(1.0);
+//   x.putScalar(0.0);
 //
 //   mikado::linear_solve(
 //       *A, b, x, dict{
@@ -164,13 +156,11 @@ TEST_CASE("MueLu solver", "[muelu]")
 
   const auto A = create_matrix(comm);
 
-  mikado::show_tpetra_crs_matrix(*A);
-
   auto b = Tpetra::Vector<double,int,int>(A->getRangeMap());
   b.putScalar(1.0);
 
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
-  x.putScalar(1.0);
+  x.putScalar(0.0);
 
   mikado::linear_solve(
       *A, b, x, dict{
@@ -192,13 +182,11 @@ TEST_CASE("no solver", "[no solver]")
 
   const auto A = create_matrix(comm);
 
-  mikado::show_tpetra_crs_matrix(*A);
-
   auto b = Tpetra::Vector<double,int,int>(A->getRangeMap());
   b.putScalar(1.0);
 
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
-  x.putScalar(1.0);
+  x.putScalar(0.0);
 
   REQUIRE_THROWS(
     mikado::linear_solve(
@@ -213,13 +201,11 @@ TEST_CASE("invalid solver", "[invalid]")
 
   const auto A = create_matrix(comm);
 
-  mikado::show_tpetra_crs_matrix(*A);
-
   auto b = Tpetra::Vector<double,int,int>(A->getRangeMap());
   b.putScalar(1.0);
 
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
-  x.putScalar(1.0);
+  x.putScalar(0.0);
 
   REQUIRE_THROWS(
     mikado::linear_solve(
@@ -228,5 +214,28 @@ TEST_CASE("invalid solver", "[invalid]")
       }
       );
     );
+}
+// ===========================================================================
+TEST_CASE("Belos solver with invalid preconditioner", "[belos invalid]")
+{
+  const auto comm = Teuchos::DefaultComm<int>::getComm();
+
+  const auto A = create_matrix(comm);
+
+  auto b = Tpetra::Vector<double,int,int>(A->getRangeMap());
+  b.putScalar(1.0);
+
+  auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
+  x.putScalar(0.0);
+
+  REQUIRE_THROWS(
+    mikado::linear_solve(
+        *A, b, x, dict{
+          {"package", std::string("Belos")},
+          {"method", std::string("Pseudo Block GMRES")},
+          {"preconditioner", std::string("invalid")}
+        }
+        );
+  );
 }
 // ============================================================================
