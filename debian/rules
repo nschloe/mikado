@@ -4,6 +4,10 @@
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
 
+# facilitate build-time testing (invoking OpenMPI) when building in a chroot
+# (pbuilder or sbuild)
+export OMPI_MCA_plm_rsh_agent=/bin/false
+
 %:
 	dh $@ --buildsystem=cmake --parallel
 
