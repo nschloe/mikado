@@ -4,6 +4,7 @@ Maintainer: Nico Schlömer <nico.schloemer@gmail.com>
 Build-Depends: debhelper (>= 9),
   cmake (>= 2.8.8),
   trilinos-all-dev,
+  libsuperlu-dev,
   libopenmpi-dev,
   libboost-dev,
   catch
