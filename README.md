@@ -27,7 +27,7 @@ This uses the default solver (Amesos2 with KLU2).
 Available solvers with examples:
 
 * [*Amesos2*](https://trilinos.org/packages/amesos2/)
-```c++
+    ```c++
 using dict = std::map<std::string, boost::any>;
 mikado::linear_solve(
     A, b, x, dict{
@@ -39,12 +39,13 @@ mikado::linear_solve(
       }}
     }
     );
-```
-Check out [the Amesos2 parameter documentation](https://trilinos.org/docs/dev/packages/amesos2/doc/html/group__amesos2__solver__parameters.html)
-for more details.
+    ```
+    Check out
+    [the Amesos2 parameter documentation](https://trilinos.org/docs/dev/packages/amesos2/doc/html/group__amesos2__solver__parameters.html)
+    for more details.
 
 * [*Belos*](https://trilinos.org/packages/belos/)
-```c++
+    ```c++
 using dict = std::map<std::string, boost::any>;
 mikado::linear_solve(
     A, b, x, dict{
@@ -59,16 +60,16 @@ mikado::linear_solve(
       {"preconditioner", "MueLu"}
     }
     );
-```
+    ```
 
 * [*MueLu*](https://trilinos.org/packages/muelu/)
-```c++
+    ```c++
 mikado::linear_solve(
     A, b, x, dict{
       {"package", "MueLu"}
       }
     );
-```
+    ```
 
 #### Nonlinear solvers
 
