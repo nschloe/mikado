@@ -142,7 +142,7 @@ straighforward way. An example with various parameters:
 If you're using Ubuntu, you can get Mikado from a dedicated PPA at
 https://launchpad.net/~nschloe/+archive/ubuntu/mikado-nightly/. Simply
 ```sh
-sudo apt-add-repository ppa:nschloe/fenics-nightly
+sudo apt-add-repository ppa:nschloe/mikado-nightly
 sudo apt update
 sudo apt install libmikado-dev
 ```
