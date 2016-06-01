@@ -2,7 +2,6 @@
 #define NOSH_LINEARSOLVER_HPP
 
 #include <MueLu_Hierarchy.hpp>
-#include <Teuchos_ParameterList.hpp>
 #include <boost/any.hpp>
 
 #include <map>

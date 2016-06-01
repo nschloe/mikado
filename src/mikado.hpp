@@ -1,5 +1,5 @@
 // single entry point to mikado
 
-#include "helper.hpp"
+#include "helpers.hpp"
 #include "linear_solver.hpp"
 #include "nonlinear_solver.hpp"

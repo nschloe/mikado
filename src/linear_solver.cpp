@@ -1,6 +1,6 @@
 #include "linear_solver.hpp"
 
-#include "helper.hpp"
+#include "helpers.hpp"
 
 #include <Amesos2.hpp>
 #include <MueLu_ParameterListInterpreter.hpp>
@@ -77,7 +77,6 @@ linear_solve_amesos2(
     std::cout << std::endl;
   }
 
-  show_map(solver_params);
   const std::string method = any_to_string(solver_params.at("method"));
 
   auto solver = Amesos2::create<OP,MV>(
