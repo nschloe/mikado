@@ -1,13 +1,14 @@
 # Mikado
 
+Friendly solver interfaces for Trilinos.
+
 [![Build Status](https://travis-ci.org/nschloe/mikado.svg?branch=master)](https://travis-ci.org/nschloe/mikado)
 [![codecov](https://codecov.io/gh/nschloe/mikado/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/mikado)
 [![Coverity Scan](https://img.shields.io/coverity/scan/9037.svg?maxAge=2592000)]()
 
-Friendly solver interfaces for Trilinos.
 
-Trilinos is powerful, but notoriously hard to use. Mikado tries to make things
-a little more friendly by providing simple user interfaces for various Trilinos
+Trilinos is powerful and notoriously hard to use. Mikado tries to make things
+a little easier by providing simple user interfaces for various Trilinos
 solvers.
 
 Mikado works with the Tpetra stack.
@@ -23,8 +24,26 @@ mikado::linear_solve(A, b, x);
 ```
 This uses the default solver (Amesos2 with KLU2).
 
+Available solvers with examples:
 
-If you would like to shake things up a little, you could just use
+* [*Amesos2*](https://trilinos.org/packages/amesos2/)
+```c++
+using dict = std::map<std::string, boost::any>;
+mikado::linear_solve(
+    A, b, x, dict{
+      {"package", "Amesos2"},
+      {"method", "SuperLu"},
+      {"parameters", dict{
+        {"IterRefine", "SLU_DOUBLE"},
+        {"SymmetricMode", true}
+      }}
+    }
+    );
+```
+Check out [the Amesos2 parameter documentation](https://trilinos.org/docs/dev/packages/amesos2/doc/html/group__amesos2__solver__parameters.html)
+for more details.
+
+* [*Belos*](https://trilinos.org/packages/belos/)
 ```c++
 using dict = std::map<std::string, boost::any>;
 mikado::linear_solve(
@@ -41,22 +60,20 @@ mikado::linear_solve(
     }
     );
 ```
-or
+
+* [*MueLu*](https://trilinos.org/packages/muelu/)
 ```c++
 mikado::linear_solve(
-    A, b, x, dict{{"package", "MueLu"}}
+    A, b, x, dict{
+      {"package", "MueLu"}
+      }
     );
 ```
-The packages [Amesos2](https://trilinos.org/packages/amesos2/),
-[Belos](https://trilinos.org/packages/belos/), and
-[MueLu](https://trilinos.org/packages/muelu/) are supported. Solver options
-(such as `"method"` in the above example) can be retrieved from the respective
-user manual.
 
 #### Nonlinear solvers
 
-Given a `Thyra::ModelEvaluatorDefaultBase<double>`, solving a nonlinear
-equation system is as easy as
+Given a model of type `Thyra::ModelEvaluatorDefaultBase<double>`, solving a
+nonlinear equation system is as easy as
 ```c++
   const auto model = std::make_shared<your_model>(
     // ...
@@ -69,10 +86,9 @@ equation system is as easy as
       }
       );
 ```
-This uses
-[NOX](https://trilinos.org/packages/nox-and-loca/) and
-again, solver options can be taken from [the NOX
-manual](https://trilinos.org/docs/dev/packages/nox/doc/html/parameters.html).
+This uses [NOX](https://trilinos.org/packages/nox-and-loca/); solver options
+can be taken from
+[the NOX manual](https://trilinos.org/docs/dev/packages/nox/doc/html/parameters.html).
 
 Numerical parameter continuation via LOCA can be done in a similarly
 straighforward way. An example with various parameters:
