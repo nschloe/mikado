@@ -27,5 +27,8 @@ namespace mikado
       const std::map<std::string, boost::any> & map,
       Teuchos::ParameterList & p
       );
+
+  std::string
+  any_to_string(const boost::any & in);
 }
 #endif

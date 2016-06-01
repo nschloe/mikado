@@ -1,5 +1,6 @@
 #include "nonlinear_solver.hpp"
-#include "helper.hpp"
+
+#include "helpers.hpp"
 
 #include <Piro_LOCASolver.hpp>
 #include <Piro_NOXSolver.hpp>

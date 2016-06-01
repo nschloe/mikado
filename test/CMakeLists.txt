@@ -8,20 +8,21 @@ INCLUDE_DIRECTORIES(SYSTEM
 
 SET(internal_LIBS "mikado")
 
-SET(MIKADOTEST_EXECUTABLE "mikadoTest")
-ADD_EXECUTABLE (${MIKADOTEST_EXECUTABLE} linear.cpp main.cpp)
-# add tests
-ADD_TEST(mikadoTestSerial ${MIKADOTEST_EXECUTABLE})
-# Check out FindMPI.cmake for proper syntax.
-# ADD_TEST(ioTestMpi2
-#   ${Trilinos_MPI_EXEC} --noprefix ${Trilinos_MPI_EXEC_NUMPROCS_FLAG} 2 ${IOTEST_EXECUTABLE}
-#   )
-# ADD_TEST(ioTestMpi7
-#   ${Trilinos_MPI_EXEC} --noprefix ${Trilinos_MPI_EXEC_NUMPROCS_FLAG} 7 ${IOTEST_EXECUTABLE}
-#   )
+SET(HELPERSTEST_EXECUTABLE "helpersTest")
+ADD_EXECUTABLE(${HELPERSTEST_EXECUTABLE} helpers.cpp main.cpp)
+ADD_TEST(helpersTestSerial ${HELPERSTEST_EXECUTABLE})
+TARGET_LINK_LIBRARIES(${HELPERSTEST_EXECUTABLE} ${internal_LIBS})
 
-# Set executable linking information.
-TARGET_LINK_LIBRARIES(
-  ${MIKADOTEST_EXECUTABLE}
-  ${internal_LIBS}
+SET(LINEARTEST_EXECUTABLE "linearTest")
+ADD_EXECUTABLE (${LINEARTEST_EXECUTABLE} linear.cpp main.cpp)
+# add tests
+ADD_TEST(linearTestSerial ${LINEARTEST_EXECUTABLE})
+ADD_TEST(linearTestMpi3
+  ${Trilinos_MPI_EXEC} --noprefix ${Trilinos_MPI_EXEC_NUMPROCS_FLAG} 3 ${LINEARTEST_EXECUTABLE}
   )
+TARGET_LINK_LIBRARIES(${LINEARTEST_EXECUTABLE} ${internal_LIBS})
+
+SET(NONLINEARTEST_EXECUTABLE "nonlinearTest")
+ADD_EXECUTABLE(${NONLINEARTEST_EXECUTABLE} nonlinear.cpp main.cpp)
+ADD_TEST(nonlinearTestSerial ${NONLINEARTEST_EXECUTABLE})
+TARGET_LINK_LIBRARIES(${NONLINEARTEST_EXECUTABLE} ${internal_LIBS})

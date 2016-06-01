@@ -1,23 +1,51 @@
 # Mikado
 
-[![Build Status](https://travis-ci.org/nschloe/mikado.svg?branch=master)](https://travis-ci.org/nschloe/mikado)
-[![codecov](https://codecov.io/gh/nschloe/mikado/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/mikado)
-
 Friendly solver interfaces for Trilinos.
 
-Trilinos is powerful, but notoriously hard to use. Mikado tries to make things
-a little bit easier by providing a simple user interface for various linear and
-nonlinear Trilinos solvers.
+[![Build Status](https://travis-ci.org/nschloe/mikado.svg?branch=master)](https://travis-ci.org/nschloe/mikado)
+[![codecov](https://codecov.io/gh/nschloe/mikado/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/mikado)
+[![Coverity Scan](https://img.shields.io/coverity/scan/9037.svg?maxAge=2592000)]()
 
-For example, given a Tpetra::CrsMatrix `A` and two vector `b` and `x`, solving a
+
+Trilinos is powerful and notoriously hard to use. Mikado tries to make things
+a little easier by providing simple user interfaces for various Trilinos
+solvers.
+
+Mikado works with the Tpetra stack.
+
+### Usage
+
+#### Linear solvers
+
+Given a Tpetra::CrsMatrix `A` and two vectors `b` and `x`, solving a
 linear system is as easy as
 ```c++
 mikado::linear_solve(A, b, x);
 ```
 This uses the default solver (Amesos2 with KLU2).
 
-If you would like to shake things up a little, just use
-```c++
+Available solvers with examples:
+
+* [*Amesos2*](https://trilinos.org/packages/amesos2/)
+    ```c++
+using dict = std::map<std::string, boost::any>;
+mikado::linear_solve(
+    A, b, x, dict{
+      {"package", "Amesos2"},
+      {"method", "SuperLu"},
+      {"parameters", dict{
+        {"IterRefine", "SLU_DOUBLE"},
+        {"SymmetricMode", true}
+      }}
+    }
+    );
+    ```
+    Check out
+    [the Amesos2 parameter documentation](https://trilinos.org/docs/dev/packages/amesos2/doc/html/group__amesos2__solver__parameters.html)
+    for more details.
+
+* [*Belos*](https://trilinos.org/packages/belos/)
+    ```c++
 using dict = std::map<std::string, boost::any>;
 mikado::linear_solve(
     A, b, x, dict{
@@ -32,12 +60,102 @@ mikado::linear_solve(
       {"preconditioner", "MueLu"}
     }
     );
-```
-or
-```c++
+    ```
+    Solver parameters are different from method to method; see, e.g.,
+    [here](https://trilinos.org/docs/dev/packages/belos/doc/html/classBelos_1_1PseudoBlockGmresSolMgr.html).
+
+* [*MueLu*](https://trilinos.org/packages/muelu/)
+    ```c++
 mikado::linear_solve(
-    A, b, x, dict{{"package", "MueLu"}}
+    A, b, x, dict{
+      {"package", "MueLu"}
+      }
     );
+    ```
+    [The MueLu User Guide](https://trilinos.org/wordpress/wp-content/uploads/2015/05/MueLu_Users_Guide_Trilinos12_0.pdf)
+    provides full options documentation.
+
+
+#### Nonlinear solvers
+
+Given a model of type `Thyra::ModelEvaluatorDefaultBase<double>`, solving a
+nonlinear equation system is as easy as
+```c++
+  const auto model = std::make_shared<your_model>(
+    // ...
+  );
+
+  const auto sol = mikado::nonlinear_solve(
+      model,
+      {
+        {"method", "Newton"}
+      }
+      );
+```
+This uses [NOX](https://trilinos.org/packages/nox-and-loca/); solver options
+can be taken from
+[the NOX manual](https://trilinos.org/docs/dev/packages/nox/doc/html/parameters.html).
+
+Numerical parameter continuation via LOCA can be done in a similarly
+straightforward way. An example with various parameters:
+```c++
+  const auto model = std::make_shared<your_model>(
+    // ...
+  );
+
+  // optionally specify your 
+  const auto saver = std::make_shared<your_data_saver>(
+    // ...
+  );
+
+  mikado::parameter_continuation(
+      model, saver,
+      {
+        {"NOX", dict{
+          {"Status Tests", dict{
+            {"Test Type", "NormF"},
+            {"Norm Type", "Two Norm"},
+            {"Tolerance", 1.0e-8}
+          }},
+          {"Printing", dict{
+           {"Output Information", dict{
+             {"Details", true},
+             {"Outer Iteration", true},
+             {"Outer Iteration Status Test", true},
+             {"Inner Iteration", true},
+             {"Linear Solver Details", true},
+             {"Parameters", true},
+             {"Warning", true},
+             {"Debug", true},
+             {"Test Details", true},
+             {"Error", true},
+             {"Stepper Iteration", true},
+             {"Stepper Details", true},
+             {"Stepper Parameters", true}
+           }}
+          }}
+        }},
+        {"LOCA", dict{
+          {"Predictor", dict{
+            {"Method", "Tangent"}
+          }},
+          {"Stepper", dict{
+            {"Continuation Method", "Arc Length"},
+            {"Continuation Parameter", "alpha"},
+            {"Initial Value", 1.0},
+            {"Min Value", 0.0},
+            {"Max Value", 3.0},
+            {"Max Nonlinear Iterations", 5},
+          }},
+          {"Step Size", dict{
+            {"Initial Step Size", 1.0e-1},
+            {"Min Step Size", 1.0e-5},
+            {"Max Step Size", 5.0e-1},
+            {"Aggressiveness", 0.1}
+          }}
+        }}
+      }
+      );
 ```
 
 ### Installation
@@ -47,7 +165,7 @@ mikado::linear_solve(
 If you're using Ubuntu, you can get Mikado from a dedicated PPA at
 https://launchpad.net/~nschloe/+archive/ubuntu/mikado-nightly/. Simply
 ```sh
-sudo apt-add-repository ppa:nschloe/fenics-nightly
+sudo apt-add-repository ppa:nschloe/mikado-nightly
 sudo apt update
 sudo apt install libmikado-dev
 ```

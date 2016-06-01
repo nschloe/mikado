@@ -6,23 +6,15 @@ Build-Depends: debhelper (>= 9),
   trilinos-all-dev,
   libopenmpi-dev,
   libboost-dev,
-  libsuperlu-dev,
-  libptscotch-dev,
-  libmumps-dev,
-  libtbb-dev,
-  libhdf5-openmpi-dev,
-  liblapack-dev,
-  binutils-dev,
-  libiberty-dev,
   catch
-Standards-Version: 3.9.6
+Standards-Version: 3.9.8
 Section: libs
-Homepage: https://github.com/gdsjaar/mikado
+Homepage: https://github.com/nschloe/mikado
 
 Package: libmikado-dev
 Section: libdevel
 Architecture: any
-Depends: libmikado0 (= ${binary:Version}), ${misc:Depends}
+Depends: trilinos-all-dev, libboost-dev, libmikado0 (= ${binary:Version}), ${misc:Depends}
 Description: friendly solver interfaces for Trilinos
   .
   This package contains development headers.

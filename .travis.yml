@@ -16,14 +16,10 @@ before_install:
   # Get Trilinos.
   - sudo add-apt-repository -y ppa:nschloe/trilinos-nightly
   - sudo add-apt-repository -y ppa:nschloe/hdf5-backports
-  - sudo add-apt-repository -y ppa:nschloe/superlu-backports
   - sudo apt-get update
   - sudo apt-get install -y cmake
   - sudo apt-get install -y libopenmpi-dev openmpi-bin
   - sudo apt-get install -y libboost-dev
-  - sudo apt-get install -y libsuperlu-dev
-  # should be added automatically:
-  - sudo apt-get install -y libmumps-dev libtbb-dev libhdf5-openmpi-dev liblapack-dev binutils-dev libiberty-dev
   - sudo apt-get install -y trilinos-all-dev
   - sudo apt-get install -y catch
   - sudo apt install -y cppcheck && cppcheck --enable=all .
