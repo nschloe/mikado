@@ -61,6 +61,8 @@ mikado::linear_solve(
     }
     );
     ```
+    Solver parameters are different from method to method; see, e.g.,
+    [here](https://trilinos.org/docs/dev/packages/belos/doc/html/classBelos_1_1PseudoBlockGmresSolMgr.html).
 
 * [*MueLu*](https://trilinos.org/packages/muelu/)
     ```c++
@@ -70,6 +72,9 @@ mikado::linear_solve(
       }
     );
     ```
+    [The MueLu User Guide](https://trilinos.org/wordpress/wp-content/uploads/2015/05/MueLu_Users_Guide_Trilinos12_0.pdf)
+    provides full options documentation.
+
 
 #### Nonlinear solvers
 
@@ -83,7 +88,7 @@ nonlinear equation system is as easy as
   const auto sol = mikado::nonlinear_solve(
       model,
       {
-        {"method", std::string("Newton")}
+        {"method", "Newton"}
       }
       );
 ```
@@ -92,7 +97,7 @@ can be taken from
 [the NOX manual](https://trilinos.org/docs/dev/packages/nox/doc/html/parameters.html).
 
 Numerical parameter continuation via LOCA can be done in a similarly
-straighforward way. An example with various parameters:
+straightforward way. An example with various parameters:
 ```c++
   const auto model = std::make_shared<your_model>(
     // ...
