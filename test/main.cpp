@@ -6,6 +6,11 @@
 int main(int argc, char* argv[])
 {
   Teuchos::GlobalMPISession mpiSession(&argc, &argv, NULL);
-  const int result = Catch::Session().run(argc, argv);
-  return result;
+  try {
+    const int result = Catch::Session().run(argc, argv);
+    return result;
+  }
+  catch (...) {
+    return EXIT_FAILURE;
+  }
 }
