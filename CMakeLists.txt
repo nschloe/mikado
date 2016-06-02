@@ -62,12 +62,9 @@ SET(INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/mikado" CACHE PATH "Install
 if(WIN32 AND NOT CYGWIN)
   set(DEF_INSTALL_CMAKE_DIR CMake)
 else()
-  set(DEF_INSTALL_CMAKE_DIR "lib/cmake/${PROJECT_NAME}")
+  set(DEF_INSTALL_CMAKE_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 endif()
-set(
-  INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
-  "Installation directory for CMake files"
-  )
+set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH "Installation directory for CMake files")
 
 # Add subdirectories after INSTALL_BIN_DIR has been set.
 ADD_SUBDIRECTORY(src)
