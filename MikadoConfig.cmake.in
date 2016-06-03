@@ -36,12 +36,3 @@ SET_AND_CHECK(@PROJECT_NAME@_LIBRARY_DIRS "@PACKAGE_INSTALL_LIB_DIR@")
 
 ## The project libraries.
 SET(@PROJECT_NAME@_LIBRARIES "@Mikado_CONFIG_LIBRARIES@")
-
-## The project Trilinos include paths
-SET(@PROJECT_NAME@_Trilinos_INCLUDE_DIRS "@Trilinos_INCLUDE_DIRS@")
-SET(@PROJECT_NAME@_Trilinos_LIBRARY_DIRS "@Trilinos_LIBRARY_DIRS@")
-SET(@PROJECT_NAME@_Trilinos_TPL_LIBRARY_DIRS "@Trilinos_TPL_LIBRARY_DIRS@")
-
-## The project Trilinos libraries
-SET(@PROJECT_NAME@_Trilinos_LIBRARIES "@Trilinos_LIBRARIES@")
-SET(@PROJECT_NAME@_Trilinos_TPL_LIBRARIES "@Trilinos_TPL_LIBRARIES@")

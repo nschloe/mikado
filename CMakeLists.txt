@@ -73,6 +73,7 @@ ADD_SUBDIRECTORY(test)
 
 # Create and install some helper files.
 INCLUDE(CMakePackageConfigHelpers)
+SET(Mikado_CONFIG_LIBRARIES "mikado")
 CONFIGURE_PACKAGE_CONFIG_FILE(
   "${PROJECT_NAME}Config.cmake.in"
   "${PROJECT_NAME}Config.cmake"
