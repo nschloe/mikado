@@ -24,5 +24,5 @@ namespace mikado {
       const std::shared_ptr<LOCA::Thyra::SaveDataStrategy> & data_saver,
       std::map<std::string, boost::any> solver_params
       );
-}
+} // namespace mikado
 #endif // NOSH_NONLINEAR_SOLVER_HPP

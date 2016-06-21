@@ -96,4 +96,4 @@ namespace mikado
       return boost::any_cast<const char *>(in);
     }
   }
-}
+} // namespace mikado

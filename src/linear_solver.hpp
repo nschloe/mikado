@@ -106,7 +106,7 @@ namespace mikado {
 
   std::map<std::string, boost::any>
   convert_to_belos_parameters(
-      const std::map<std::string, boost::any> & map
+      const std::map<std::string, boost::any> & in_map
       );
-}
+} // namespace mikado
 #endif // NOSH_LINEARSOLVER_HPP

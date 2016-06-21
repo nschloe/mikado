@@ -30,5 +30,5 @@ namespace mikado
 
   std::string
   any_to_string(const boost::any & in);
-}
+} // namespace mikado
 #endif

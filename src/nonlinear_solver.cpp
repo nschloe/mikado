@@ -18,12 +18,12 @@ namespace mikado {
     public:
     nonlinear_observer(): solution(Teuchos::null) {};
 
-    virtual ~nonlinear_observer() {};
+    ~nonlinear_observer() override = default;
 
     using Piro::ObserverBase<double>::observeSolution;
-    virtual
+
     void
-    observeSolution(const Thyra::VectorBase<double> &sol)
+    observeSolution(const Thyra::VectorBase<double> &sol) override
     {
       this->solution = sol.clone_v();
     }
@@ -31,7 +31,7 @@ namespace mikado {
     public:
     Teuchos::RCP<const Thyra::VectorBase<double>> solution;
   };
-}
+} // namespace mikado
 // =============================================================================
 std::shared_ptr<const Tpetra::Vector<double,int,int>>
 mikado::
