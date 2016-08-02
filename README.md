@@ -188,6 +188,26 @@ make
 make install
 ```
 
+### Development
+
+#### Testing
+Compile mikado as usual and run `ctest` in the build directory.
+
+#### Static analyis
+clang++ offers excellent very good static code analysis. To run it, configure
+mikado to be built with clang++,
+```
+OMPI_CXX=clang++ \
+cmake \
+  -DCMAKE_CXX_COMPILER:PATH=/usr/bin/mpicxx \
+  ../source/
+```
+Then run
+```
+scan-build make
+```
+in the build directory.
+
 ### License
 
 Mikado is published under the [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause).
