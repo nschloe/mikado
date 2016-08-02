@@ -7,8 +7,8 @@ Friendly solver interfaces for Trilinos.
 [![Coverity Scan](https://img.shields.io/coverity/scan/9037.svg?maxAge=2592000)](https://scan.coverity.com/projects/nschloe-mikado)
 
 
-Trilinos is powerful and notoriously hard to use. Mikado tries to make things
-a little easier by providing simple user interfaces for various Trilinos
+Trilinos is powerful, but can be hard to use. Mikado tries to make things
+a little easier by providing a simple user interface for various Trilinos
 solvers.
 
 Mikado works with the Tpetra stack.
@@ -49,7 +49,6 @@ mikado::linear_solve(
 
 * [*Belos*](https://trilinos.org/packages/belos/)
     ```c++
-using dict = std::map<std::string, boost::any>;
 mikado::linear_solve(
     A, b, x, dict{
       {"package", "Belos"},
@@ -74,7 +73,10 @@ mikado::linear_solve(
     ```c++
 mikado::linear_solve(
     A, b, x, dict{
-      {"package", "MueLu"}
+      {"package", "MueLu"},
+      {"preconditioner parameters", dict{
+        {"cycle type", "W"}
+      }}
       }
     );
     ```
