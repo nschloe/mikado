@@ -24,20 +24,19 @@
 #include <map>
 
 using SC = double;
-using LO = int;
-using GO = int;
+using LO = Tpetra::Map<>::local_ordinal_type;
+using GO = Tpetra::Map<>::global_ordinal_type;;
 using MV = Tpetra::MultiVector<SC,LO,GO>;
 using OP = Tpetra::CrsMatrix<SC,LO,GO>;
-using NormType = MV::mag_type;
 
 
 // =============================================================================
 void
 mikado::
 linear_solve(
-    const Tpetra::CrsMatrix<double,int,int> & A,
-    const Tpetra::Vector<double,int,int> & b,
-    Tpetra::Vector<double,int,int> & x,
+    const Tpetra::CrsMatrix<SC,LO,GO> & A,
+    const Tpetra::Vector<SC,LO,GO> & b,
+    Tpetra::Vector<SC,LO,GO> & x,
     std::map<std::string, boost::any> solver_params
     )
 {
@@ -66,9 +65,9 @@ linear_solve(
 void
 mikado::
 linear_solve_amesos2(
-    const Tpetra::CrsMatrix<double,int,int> & A,
-    const Tpetra::Vector<double,int,int> & b,
-    Tpetra::Vector<double,int,int> & x,
+    const Tpetra::CrsMatrix<SC,LO,GO> & A,
+    const Tpetra::Vector<SC,LO,GO> & b,
+    Tpetra::Vector<SC,LO,GO> & x,
     std::map<std::string, boost::any> solver_params
     )
 {
@@ -109,9 +108,9 @@ linear_solve_amesos2(
 void
 mikado::
 linear_solve_belos(
-    const Tpetra::Operator<double,int,int> & A,
-    const Tpetra::Vector<double,int,int> & b,
-    Tpetra::Vector<double,int,int> & x,
+    const Tpetra::Operator<SC,LO,GO> & A,
+    const Tpetra::Vector<SC,LO,GO> & b,
+    Tpetra::Vector<SC,LO,GO> & x,
     std::map<std::string, boost::any> solver_params
     )
 {
@@ -129,7 +128,7 @@ linear_solve_belos(
 #endif
   lowsFactory->setVerbLevel(Teuchos::VERB_LOW);
 
-  const Tpetra::Operator<double,int,int> & opA = A;
+  const Tpetra::Operator<SC,LO,GO> & opA = A;
   auto thyraA = Thyra::createConstLinearOp(Teuchos::rcpFromRef(opA)); // throws
 
   Teuchos::RCP<Thyra::LinearOpWithSolveBase<double>> lows;
@@ -147,12 +146,12 @@ linear_solve_belos(
     // https://github.com/trilinos/Trilinos/issues/535
     // if (prec_type == "Ifpack2") {
     //   factory = Teuchos::rcp(
-    //       new Thyra::Ifpack2PreconditionerFactory<Tpetra::CrsMatrix<double,int,int>>()
+    //       new Thyra::Ifpack2PreconditionerFactory<Tpetra::CrsMatrix<SC,LO,GO>>()
     //       );
     // } else
     if (prec_type == "MueLu") {
       factory = Teuchos::rcp(
-          new Thyra::MueLuPreconditionerFactory<double,int,int>()
+          new Thyra::MueLuPreconditionerFactory<SC,LO,GO>()
           );
     } else {
       TEUCHOS_TEST_FOR_EXCEPT_MSG(
@@ -179,8 +178,8 @@ linear_solve_belos(
     Thyra::initializePreconditionedOp<double>(*lowsFactory, thyraA, prec, lows.ptr());
   }
 
-  const Tpetra::Vector<double,int,int> & vecF = b;
-  Tpetra::Vector<double,int,int> & vecX = x;
+  const Tpetra::Vector<SC,LO,GO> & vecF = b;
+  Tpetra::Vector<SC,LO,GO> & vecX = x;
 
   auto status = Thyra::solve<double>(
       *lows,
@@ -195,19 +194,19 @@ linear_solve_belos(
   return;
 }
 // =============================================================================
-std::shared_ptr<MueLu::Hierarchy<double,int,int>>
+std::shared_ptr<MueLu::Hierarchy<SC,LO,GO>>
 mikado::
 get_muelu_hierarchy(
-    const Tpetra::CrsMatrix<double,int,int> & A,
+    const Tpetra::CrsMatrix<SC,LO,GO> & A,
     const std::map<std::string, boost::any> & muelu_params
     )
 {
   // Tpetra -> Xpetra
-  Teuchos::RCP<const Tpetra::CrsMatrix<double,int,int>> ATpetra =
+  Teuchos::RCP<const Tpetra::CrsMatrix<SC,LO,GO>> ATpetra =
     Teuchos::rcpFromRef(A);
   // cast away the const from A :(
   auto nonconst_ATpetra =
-    Teuchos::rcp_const_cast<Tpetra::CrsMatrix<double,int,int>>(ATpetra);
+    Teuchos::rcp_const_cast<Tpetra::CrsMatrix<SC,LO,GO>>(ATpetra);
   auto AXpetra = MueLu::TpetraCrs_To_XpetraMatrix(nonconst_ATpetra);
 
   auto map = AXpetra->getRowMap();
@@ -219,13 +218,13 @@ get_muelu_hierarchy(
   std_map_to_teuchos_list(params, *p);
 
   auto mueLuFactory =
-    MueLu::ParameterListInterpreter<double,int,int>(*p, map->getComm());
+    MueLu::ParameterListInterpreter<SC,LO,GO>(*p, map->getComm());
 
   auto H = Teuchos::get_shared_ptr(mueLuFactory.CreateHierarchy());
   H->GetLevel(0)->Set("A", AXpetra);
 
   //// build null space vector
-  //auto nullspace = Xpetra::MultiVectorFactory<double,int,int>::Build(map, 1);
+  //auto nullspace = Xpetra::MultiVectorFactory<SC,LO,GO>::Build(map, 1);
   //nullspace->putScalar(1.0);
   //H->GetLevel(0)->Set("Nullspace", nullspace);
 
@@ -242,16 +241,16 @@ get_muelu_hierarchy(
 void
 mikado::
 linear_solve_muelu(
-    const Tpetra::CrsMatrix<double,int,int> & A,
-    const Tpetra::Vector<double,int,int> & b,
-    Tpetra::Vector<double,int,int> & x,
+    const Tpetra::CrsMatrix<SC,LO,GO> & A,
+    const Tpetra::Vector<SC,LO,GO> & b,
+    Tpetra::Vector<SC,LO,GO> & x,
     std::map<std::string, boost::any> solver_params
     )
 {
   x.putScalar(0.0);
   // Tpetra -> Xpetra
   auto bXpetra = Xpetra::toXpetra(Teuchos::rcpFromRef(b));
-  Tpetra::Vector<double,int,int> & xTpetra = x;
+  Tpetra::Vector<SC,LO,GO> & xTpetra = x;
   auto xXpetra = Xpetra::toXpetra(Teuchos::rcpFromRef(xTpetra));
 
   std::map<std::string, boost::any> params;
