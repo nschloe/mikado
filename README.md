@@ -26,6 +26,9 @@ This uses the default solver (Amesos2 with KLU2).
 
 Available solvers with examples:
 
+(Note that for older versions of Boost, you might need to wrap the strings in
+`std::string()`.)
+
 * [*Amesos2*](https://trilinos.org/packages/amesos2/)
     ```c++
 using dict = std::map<std::string, boost::any>;
