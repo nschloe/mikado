@@ -57,7 +57,10 @@ mikado::linear_solve(
         {"Output Style", 1},
         {"Verbosity", 33}
       }},
-      {"preconditioner", "MueLu"}
+      {"preconditioner", "MueLu"},
+      {"preconditioner parameters", dict{
+        {"cycle type", "W"}
+      }}
     }
     );
     ```
