@@ -4,7 +4,7 @@ Friendly solver interfaces for Trilinos.
 
 [![Build Status](https://travis-ci.org/nschloe/mikado.svg?branch=master)](https://travis-ci.org/nschloe/mikado)
 [![codecov](https://codecov.io/gh/nschloe/mikado/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/mikado)
-[![Coverity Scan](https://img.shields.io/coverity/scan/9037.svg?maxAge=2592000)]()
+[![Coverity Scan](https://img.shields.io/coverity/scan/9037.svg?maxAge=2592000)](https://scan.coverity.com/projects/nschloe-mikado)
 
 
 Trilinos is powerful and notoriously hard to use. Mikado tries to make things
