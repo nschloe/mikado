@@ -123,7 +123,7 @@ TEST_CASE("Belos solver with MueLu preconditioner", "[belos muelu]")
         {"method", std::string("Pseudo Block GMRES")},
         {"preconditioner", std::string("MueLu")},
         {"preconditioner parameters", dict{
-          {"cycle type", "W"}
+          {"cycle type", std::string("W")}
         }}
       }
       );
@@ -196,7 +196,7 @@ TEST_CASE("MueLu solver", "[muelu]")
       *A, b, x, dict{
         {"package", std::string("MueLu")},
         {"parameters", dict{
-          {"cycle type", "W"},
+          {"cycle type", std::string("W")},
           {"max cycles", 1},
           {"convergence tolerance", 1.0e-10}
         }}
