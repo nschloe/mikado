@@ -122,6 +122,7 @@ TEST_CASE("Belos solver with MueLu preconditioner", "[belos muelu]")
   }
 }
 // ===========================================================================
+// <https://github.com/trilinos/Trilinos/issues/535>
 // TEST_CASE("Belos solver with Ifpack2 preconditioner", "[belos ifpack2]")
 // {
 //   const auto comm = Teuchos::DefaultComm<int>::getComm();
