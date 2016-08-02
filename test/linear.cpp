@@ -110,7 +110,10 @@ TEST_CASE("Belos solver with MueLu preconditioner", "[belos muelu]")
       *A, b, x, dict{
         {"package", std::string("Belos")},
         {"method", std::string("Pseudo Block GMRES")},
-        {"preconditioner", std::string("MueLu")}
+        {"preconditioner", std::string("MueLu")},
+        {"preconditioner parameters", dict{
+          {"cycle type", "W"}
+        }}
       }
       );
 
