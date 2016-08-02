@@ -79,19 +79,30 @@ TEST_CASE("Belos solver (no preconditioner)", "[belos no prec]")
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
   x.putScalar(0.0);
 
+  const auto x_data = x.getData();
+  const auto myGlobalElements = x.getMap()->getNodeElementList();
+  REQUIRE(myGlobalElements.size() == x_data.size());
+
+  // with method
   mikado::linear_solve(
       *A, b, x, dict{
         {"package", std::string("Belos")},
         {"method", std::string("Pseudo Block GMRES")}
       }
       );
-
-  const auto x_data = x.getData();
-  const auto myGlobalElements = x.getMap()->getNodeElementList();
-  REQUIRE(myGlobalElements.size() == x_data.size());
   for (size_t i = 0; i < myGlobalElements.size(); i++) {
     REQUIRE(x_data[i] == Approx(myGlobalElements[i] + 1));
   }
+
+  // without method
+  REQUIRE_THROWS_AS(
+    mikado::linear_solve(
+        *A, b, x, dict{
+          {"package", std::string("Belos")}
+        }
+        ),
+    std::invalid_argument
+  );
 }
 // ===========================================================================
 TEST_CASE("Belos solver with MueLu preconditioner", "[belos muelu]")

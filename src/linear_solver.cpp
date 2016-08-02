@@ -307,7 +307,7 @@ convert_to_belos_parameters(
   std::map<std::string, boost::any> out_map = {};
 
   if (in_map.find("method") == in_map.end()) {
-    return out_map;
+    throw std::invalid_argument("belos parameters need \"method\"");
   }
 
   const std::string method = any_to_string(in_map.at("method"));
