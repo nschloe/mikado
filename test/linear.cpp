@@ -185,7 +185,9 @@ TEST_CASE("MueLu solver", "[muelu]")
       *A, b, x, dict{
         {"package", std::string("MueLu")},
         {"parameters", dict{
-          {"cycle type", "W"}
+          {"cycle type", "W"},
+          {"max cycles", 1},
+          {"convergence tolerance", 1.0e-10}
         }}
       }
       );
