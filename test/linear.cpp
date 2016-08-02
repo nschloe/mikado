@@ -166,15 +166,29 @@ TEST_CASE("MueLu solver", "[muelu]")
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
   x.putScalar(0.0);
 
+  const auto x_data = x.getData();
+  const auto myGlobalElements = x.getMap()->getNodeElementList();
+  REQUIRE(myGlobalElements.size() == x_data.size());
+
+  // Without params
   mikado::linear_solve(
       *A, b, x, dict{
         {"package", std::string("MueLu")}
       }
       );
+  for (size_t i = 0; i < myGlobalElements.size(); i++) {
+    REQUIRE(x_data[i] == Approx(myGlobalElements[i] + 1));
+  }
 
-  const auto x_data = x.getData();
-  const auto myGlobalElements = x.getMap()->getNodeElementList();
-  REQUIRE(myGlobalElements.size() == x_data.size());
+  // with params
+  mikado::linear_solve(
+      *A, b, x, dict{
+        {"package", std::string("MueLu")},
+        {"parameters", dict{
+          {"cycle type", "W"}
+        }}
+      }
+      );
   for (size_t i = 0; i < myGlobalElements.size(); i++) {
     REQUIRE(x_data[i] == Approx(myGlobalElements[i] + 1));
   }
