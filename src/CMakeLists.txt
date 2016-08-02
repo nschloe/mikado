@@ -38,6 +38,13 @@ SET_TARGET_PROPERTIES(
   SOVERSION ${${PROJECT_NAME}_MAJOR_VERSION}
   )
 
+IF (CMAKE_VERSION IS_NEWER_THAN "3.6")
+  SET_PROPERTY(
+    TARGET mikado
+    PROPERTY CXX_CLANG_TIDY "clang-tidy"
+    )
+ENDIF()
+
 # Installation of the program
 INSTALL(
   TARGETS mikado
