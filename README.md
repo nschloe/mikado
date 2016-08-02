@@ -4,7 +4,7 @@ Friendly solver interfaces for Trilinos.
 
 [![Build Status](https://travis-ci.org/nschloe/mikado.svg?branch=master)](https://travis-ci.org/nschloe/mikado)
 [![codecov](https://codecov.io/gh/nschloe/mikado/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/mikado)
-[![Coverity Scan](https://img.shields.io/coverity/scan/9037.svg?maxAge=2592000)]()
+[![Coverity Scan](https://img.shields.io/coverity/scan/9037.svg?maxAge=2592000)](https://scan.coverity.com/projects/nschloe-mikado)
 
 
 Trilinos is powerful and notoriously hard to use. Mikado tries to make things
@@ -25,6 +25,9 @@ mikado::linear_solve(A, b, x);
 This uses the default solver (Amesos2 with KLU2).
 
 Available solvers with examples:
+
+(Note that for older versions of Boost, you might need to wrap the strings in
+`std::string()`.)
 
 * [*Amesos2*](https://trilinos.org/packages/amesos2/)
     ```c++
@@ -57,7 +60,10 @@ mikado::linear_solve(
         {"Output Style", 1},
         {"Verbosity", 33}
       }},
-      {"preconditioner", "MueLu"}
+      {"preconditioner", "MueLu"},
+      {"preconditioner parameters", dict{
+        {"cycle type", "W"}
+      }}
     }
     );
     ```

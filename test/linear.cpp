@@ -79,19 +79,30 @@ TEST_CASE("Belos solver (no preconditioner)", "[belos no prec]")
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
   x.putScalar(0.0);
 
+  const auto x_data = x.getData();
+  const auto myGlobalElements = x.getMap()->getNodeElementList();
+  REQUIRE(myGlobalElements.size() == x_data.size());
+
+  // with method
   mikado::linear_solve(
       *A, b, x, dict{
         {"package", std::string("Belos")},
         {"method", std::string("Pseudo Block GMRES")}
       }
       );
-
-  const auto x_data = x.getData();
-  const auto myGlobalElements = x.getMap()->getNodeElementList();
-  REQUIRE(myGlobalElements.size() == x_data.size());
   for (size_t i = 0; i < myGlobalElements.size(); i++) {
     REQUIRE(x_data[i] == Approx(myGlobalElements[i] + 1));
   }
+
+  // without method
+  REQUIRE_THROWS_AS(
+    mikado::linear_solve(
+        *A, b, x, dict{
+          {"package", std::string("Belos")}
+        }
+        ),
+    std::invalid_argument
+  );
 }
 // ===========================================================================
 TEST_CASE("Belos solver with MueLu preconditioner", "[belos muelu]")
@@ -110,7 +121,10 @@ TEST_CASE("Belos solver with MueLu preconditioner", "[belos muelu]")
       *A, b, x, dict{
         {"package", std::string("Belos")},
         {"method", std::string("Pseudo Block GMRES")},
-        {"preconditioner", std::string("MueLu")}
+        {"preconditioner", std::string("MueLu")},
+        {"preconditioner parameters", dict{
+          {"cycle type", std::string("W")}
+        }}
       }
       );
 
@@ -122,6 +136,7 @@ TEST_CASE("Belos solver with MueLu preconditioner", "[belos muelu]")
   }
 }
 // ===========================================================================
+// <https://github.com/trilinos/Trilinos/issues/535>
 // TEST_CASE("Belos solver with Ifpack2 preconditioner", "[belos ifpack2]")
 // {
 //   const auto comm = Teuchos::DefaultComm<int>::getComm();
@@ -162,15 +177,31 @@ TEST_CASE("MueLu solver", "[muelu]")
   auto x = Tpetra::Vector<double,int,int>(A->getDomainMap());
   x.putScalar(0.0);
 
+  const auto x_data = x.getData();
+  const auto myGlobalElements = x.getMap()->getNodeElementList();
+  REQUIRE(myGlobalElements.size() == x_data.size());
+
+  // Without params
   mikado::linear_solve(
       *A, b, x, dict{
         {"package", std::string("MueLu")}
       }
       );
+  for (size_t i = 0; i < myGlobalElements.size(); i++) {
+    REQUIRE(x_data[i] == Approx(myGlobalElements[i] + 1));
+  }
 
-  const auto x_data = x.getData();
-  const auto myGlobalElements = x.getMap()->getNodeElementList();
-  REQUIRE(myGlobalElements.size() == x_data.size());
+  // with params
+  mikado::linear_solve(
+      *A, b, x, dict{
+        {"package", std::string("MueLu")},
+        {"parameters", dict{
+          {"cycle type", std::string("W")},
+          {"max cycles", 1},
+          {"convergence tolerance", 1.0e-10}
+        }}
+      }
+      );
   for (size_t i = 0; i < myGlobalElements.size(); i++) {
     REQUIRE(x_data[i] == Approx(myGlobalElements[i] + 1));
   }

@@ -96,10 +96,7 @@ linear_solve_amesos2(
   // <https://trilinos.org/docs/dev/packages/amesos2/doc/html/group__amesos2__solver__parameters.html>.
   auto p = Teuchos::rcp(new Teuchos::ParameterList());
   std_map_to_teuchos_list(method_params, *p);
-  // std::cout << *p << std::endl;
   solver->setParameters(p);
-
-  // std::cout << *(solver->getValidParameters()) << std::endl;
 
   solver->symbolicFactorization().numericFactorization().solve();
 
@@ -147,20 +144,23 @@ linear_solve_belos(
     const std::string prec_type =
       any_to_string(solver_params.at("preconditioner"));
     Teuchos::RCP<Thyra::PreconditionerFactoryBase<double>> factory;
-    if (prec_type == "Ifpack2") {
-      factory = Teuchos::rcp(
-          new Thyra::Ifpack2PreconditionerFactory<Tpetra::CrsMatrix<double,int,int>>()
-          );
-    } else if (prec_type == "MueLu") {
+    // https://github.com/trilinos/Trilinos/issues/535
+    // if (prec_type == "Ifpack2") {
+    //   factory = Teuchos::rcp(
+    //       new Thyra::Ifpack2PreconditionerFactory<Tpetra::CrsMatrix<double,int,int>>()
+    //       );
+    // } else
+    if (prec_type == "MueLu") {
       factory = Teuchos::rcp(
           new Thyra::MueLuPreconditionerFactory<double,int,int>()
           );
     } else {
       TEUCHOS_TEST_FOR_EXCEPT_MSG(
           true,
-          "Unknown preconditioner \"" << prec_type << "\". Valid values: 'MueLu', 'Ifpack2'."
+          "Unknown preconditioner \"" << prec_type << "\". Valid values: \"MueLu\"."
           );
     }
+
     // TODO isCompatible
     // TEUCHOS_ASSERT(factory->isCompatible(*thyraA));
     if (solver_params.find("preconditioner parameters") != solver_params.end()) {
@@ -171,6 +171,7 @@ linear_solve_belos(
       std_map_to_teuchos_list(prec_params, *prec_p);
       factory->setParameterList(prec_p);
     }
+
     const auto prec = factory->createPrec();
     Thyra::initializePrec(*factory, thyraA, prec.ptr());
 
@@ -306,7 +307,7 @@ convert_to_belos_parameters(
   std::map<std::string, boost::any> out_map = {};
 
   if (in_map.find("method") == in_map.end()) {
-    return out_map;
+    throw std::invalid_argument("belos parameters need \"method\"");
   }
 
   const std::string method = any_to_string(in_map.at("method"));
