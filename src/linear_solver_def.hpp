@@ -1,4 +1,5 @@
-#include "linear_solver.hpp"
+#ifndef NOSH_LINEARSOLVER_DEF_HPP
+#define NOSH_LINEARSOLVER_DEF_HPP
 
 #include "helpers.hpp"
 
@@ -15,22 +16,10 @@
 #include <Xpetra_CrsMatrixWrap_fwd.hpp>
 #include <Xpetra_TpetraCrsMatrix.hpp>
 
-// #include <Amesos2_Details_LinearSolverFactory.hpp>
-// #include <Belos_Details_LinearSolverFactory.hpp>
-// #include <Ifpack2_Details_LinearSolverFactory.hpp>
-// #include <Trilinos_Details_LinearSolver.hpp>
-// #include <Trilinos_Details_LinearSolverFactory.hpp>
-
 #include <map>
 
-using SC = double;
-using LO = Tpetra::Map<>::local_ordinal_type;
-using GO = Tpetra::Map<>::global_ordinal_type;;
-using MV = Tpetra::MultiVector<SC,LO,GO>;
-using OP = Tpetra::CrsMatrix<SC,LO,GO>;
-
-
 // =============================================================================
+template<typename SC, typename LO, typename GO>
 void
 mikado::
 linear_solve(
@@ -62,6 +51,7 @@ linear_solve(
   return;
 }
 // =============================================================================
+template<typename SC, typename LO, typename GO>
 void
 mikado::
 linear_solve_amesos2(
@@ -71,6 +61,9 @@ linear_solve_amesos2(
     std::map<std::string, boost::any> solver_params
     )
 {
+  using MV = Tpetra::MultiVector<SC,LO,GO>;
+  using OP = Tpetra::CrsMatrix<SC,LO,GO>;
+
   if (A.getComm()->getRank() == 0) {
     mikado::show_any(solver_params);
     std::cout << std::endl;
@@ -105,6 +98,7 @@ linear_solve_amesos2(
   return;
 }
 // =============================================================================
+template<typename SC, typename LO, typename GO>
 void
 mikado::
 linear_solve_belos(
@@ -131,7 +125,7 @@ linear_solve_belos(
   const Tpetra::Operator<SC,LO,GO> & opA = A;
   auto thyraA = Thyra::createConstLinearOp(Teuchos::rcpFromRef(opA)); // throws
 
-  Teuchos::RCP<Thyra::LinearOpWithSolveBase<double>> lows;
+  Teuchos::RCP<Thyra::LinearOpWithSolveBase<SC>> lows;
   if (solver_params.find("preconditioner") == solver_params.end()) {
     // no preconditioner
     lows = Thyra::linearOpWithSolve(
@@ -142,7 +136,7 @@ linear_solve_belos(
     // handle preconditioner
     const std::string prec_type =
       any_to_string(solver_params.at("preconditioner"));
-    Teuchos::RCP<Thyra::PreconditionerFactoryBase<double>> factory;
+    Teuchos::RCP<Thyra::PreconditionerFactoryBase<SC>> factory;
     // https://github.com/trilinos/Trilinos/issues/535
     // if (prec_type == "Ifpack2") {
     //   factory = Teuchos::rcp(
@@ -175,13 +169,13 @@ linear_solve_belos(
     Thyra::initializePrec(*factory, thyraA, prec.ptr());
 
     lows = lowsFactory->createOp();
-    Thyra::initializePreconditionedOp<double>(*lowsFactory, thyraA, prec, lows.ptr());
+    Thyra::initializePreconditionedOp<SC>(*lowsFactory, thyraA, prec, lows.ptr());
   }
 
   const Tpetra::Vector<SC,LO,GO> & vecF = b;
   Tpetra::Vector<SC,LO,GO> & vecX = x;
 
-  auto status = Thyra::solve<double>(
+  auto status = Thyra::solve<SC>(
       *lows,
       Thyra::NOTRANS,
       *Thyra::createConstVector(Teuchos::rcpFromRef(vecF)),
@@ -194,6 +188,7 @@ linear_solve_belos(
   return;
 }
 // =============================================================================
+template<typename SC, typename LO, typename GO>
 std::shared_ptr<MueLu::Hierarchy<SC,LO,GO>>
 mikado::
 get_muelu_hierarchy(
@@ -238,6 +233,7 @@ get_muelu_hierarchy(
   return H;
 }
 // =============================================================================
+template<typename SC, typename LO, typename GO>
 void
 mikado::
 linear_solve_muelu(
@@ -351,3 +347,4 @@ convert_to_belos_parameters(
   return out_map;
 }
 // =============================================================================
+#endif

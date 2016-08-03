@@ -1,5 +1,5 @@
-#ifndef NOSH_LINEARSOLVER_HPP
-#define NOSH_LINEARSOLVER_HPP
+#ifndef NOSH_LINEARSOLVER_DECL_HPP
+#define NOSH_LINEARSOLVER_DECL_HPP
 
 #include <MueLu_Hierarchy.hpp>
 #include <boost/any.hpp>
@@ -66,41 +66,46 @@ namespace mikado {
   //  {"Preconditioner Type", std::string("None")}
   //};
 
+  template<typename SC, typename LO, typename GO>
   void
   linear_solve(
-      const Tpetra::CrsMatrix<double,int,int> & A,
-      const Tpetra::Vector<double,int,int> & b,
-      Tpetra::Vector<double,int,int> & x,
+      const Tpetra::CrsMatrix<SC,LO,GO> & A,
+      const Tpetra::Vector<SC,LO,GO> & b,
+      Tpetra::Vector<SC,LO,GO> & x,
       std::map<std::string, boost::any> solver_params = mikado::default_linear_solver_params
       );
 
+  template<typename SC, typename LO, typename GO>
   void
   linear_solve_amesos2(
-      const Tpetra::CrsMatrix<double,int,int> & A,
-      const Tpetra::Vector<double,int,int> & b,
-      Tpetra::Vector<double,int,int> & x,
+      const Tpetra::CrsMatrix<SC,LO,GO> & A,
+      const Tpetra::Vector<SC,LO,GO> & b,
+      Tpetra::Vector<SC,LO,GO> & x,
       std::map<std::string, boost::any> solver_params = mikado::default_linear_solver_params
       );
 
+  template<typename SC, typename LO, typename GO>
   void
   linear_solve_belos(
-      const Tpetra::Operator<double,int,int> & A,
-      const Tpetra::Vector<double,int,int> & b,
-      Tpetra::Vector<double,int,int> & x,
+      const Tpetra::Operator<SC,LO,GO> & A,
+      const Tpetra::Vector<SC,LO,GO> & b,
+      Tpetra::Vector<SC,LO,GO> & x,
       std::map<std::string, boost::any> solver_params = mikado::default_belos_params
       );
 
-  std::shared_ptr<MueLu::Hierarchy<double,int,int>>
+  template<typename SC, typename LO, typename GO>
+  std::shared_ptr<MueLu::Hierarchy<SC,LO,GO>>
   get_muelu_hierarchy(
-      const Tpetra::CrsMatrix<double,int,int> & A,
+      const Tpetra::CrsMatrix<SC,LO,GO> & A,
       const std::map<std::string, boost::any> & muelu_params
       );
 
+  template<typename SC, typename LO, typename GO>
   void
   linear_solve_muelu(
-      const Tpetra::CrsMatrix<double,int,int> & A,
-      const Tpetra::Vector<double,int,int> & b,
-      Tpetra::Vector<double,int,int> & x,
+      const Tpetra::CrsMatrix<SC,LO,GO> & A,
+      const Tpetra::Vector<SC,LO,GO> & b,
+      Tpetra::Vector<SC,LO,GO> & x,
       std::map<std::string, boost::any> solver_params = mikado::default_linear_solver_params
       );
 
@@ -109,4 +114,4 @@ namespace mikado {
       const std::map<std::string, boost::any> & in_map
       );
 } // namespace mikado
-#endif // NOSH_LINEARSOLVER_HPP
+#endif // NOSH_LINEARSOLVER_DECL_HPP
