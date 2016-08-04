@@ -7,6 +7,7 @@ IF (NOT Trilinos_Implicit)
   #FIND_PACKAGE(Trilinos REQUIRED)
   FIND_PACKAGE(Trilinos REQUIRED COMPONENTS Belos MueLu Thyra Tpetra NOX Piro)
 ENDIF()
+FIND_PACKAGE(yaml-cpp REQUIRED)
 
 # Make sure the compilers match.
 IF(NOT ${Trilinos_CXX_COMPILER} STREQUAL ${CMAKE_CXX_COMPILER})
