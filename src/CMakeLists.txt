@@ -29,6 +29,7 @@ ADD_LIBRARY(
 TARGET_LINK_LIBRARIES(
   mikado
   ${Trilinos_LIBRARIES}
+  yaml-cpp
   )
 
 SET_TARGET_PROPERTIES(

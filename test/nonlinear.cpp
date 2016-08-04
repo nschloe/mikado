@@ -8,6 +8,8 @@
 #include <Teuchos_DefaultComm.hpp>
 #include <Tpetra_CrsMatrix.hpp>
 
+#include <yaml-cpp/yaml.h>
+
 #include <mikado.hpp>
 
 using dict = std::map<std::string, boost::any>;
@@ -512,5 +514,14 @@ TEST_CASE("parameter continuation", "[param cont]")
   REQUIRE(sol_data[0] == Approx(std::sqrt(3.0)));
   // REQUIRE(sol_data[1] == Approx(std::sqrt(3.0)));
   // REQUIRE(sol_data[2] == Approx(std::sqrt(3.0)));
+
+  const auto config = YAML::LoadFile("nonlinear-config.yml");
+
+  // The same with YAML
+  mikado::parameter_continuation(
+      model, saver, mikado::yaml_to_dict(config)
+      );
+  const auto sol_data2 = saver->latest_x->getData();
+  REQUIRE(sol_data2[0] == Approx(std::sqrt(3.0)));
 }
 // ===========================================================================

@@ -3,6 +3,7 @@
 
 #include <boost/any.hpp>
 #include <map>
+#include <yaml-cpp/yaml.h>
 
 #include <Tpetra_CrsMatrix.hpp>
 
@@ -30,5 +31,11 @@ namespace mikado
 
   std::string
   any_to_string(const boost::any & in);
+
+  std::map<std::string, boost::any>
+  yaml_to_dict(const YAML::Node & node);
+
+  boost::any
+  yaml_to_any(const YAML::Node & node);
 } // namespace mikado
 #endif

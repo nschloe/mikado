@@ -1,0 +1,36 @@
+---
+NOX:
+  Status Tests:
+    Test Type: NormF
+    Norm Type: Two Norm
+    Tolerance: 1.0e-8
+  Printing:
+    Output Information:
+      Details: true
+      Outer Iteration: true
+      Outer Iteration Status Test: true
+      Inner Iteration: true
+      Linear Solver Details: true
+      Parameters: true
+      Warning: true
+      Debug: true
+      Test Details: true
+      Error: true
+      Stepper Iteration: true
+      Stepper Details: true
+      Stepper Parameters: true
+LOCA:
+  Predictor:
+    Method: Tangent
+  Stepper:
+    Continuation Method: Arc Length
+    Continuation Parameter: alpha
+    Initial Value: 1.0
+    Min Value: 0.0
+    Max Value: 3.0
+    Max Nonlinear Iterations: 5
+  Step Size:
+    Initial Step Size: 1.0e-1
+    Min Step Size: 1.0e-5
+    Max Step Size: 5.0e-1
+    Aggressiveness: 0.1

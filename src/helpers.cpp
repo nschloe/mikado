@@ -3,8 +3,11 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <yaml-cpp/yaml.h>
 
 #include <Teuchos_VerboseObject.hpp>
+
+using dict = std::map<std::string, boost::any>;
 
 namespace mikado
 {
@@ -94,6 +97,51 @@ namespace mikado
     }
     catch (boost::bad_any_cast) {
       return boost::any_cast<const char *>(in);
+    }
+  }
+
+  dict
+  yaml_to_dict(const YAML::Node & node) {
+    auto a = yaml_to_any(node);
+    dict map = boost::any_cast<dict&>(a);
+    return map;
+  }
+
+  boost::any
+  yaml_to_any(const YAML::Node & node) {
+    switch (node.Type()) {
+      case YAML::NodeType::Scalar:
+        {
+          int anInt;
+          double aDouble;
+          bool aBool;
+          if (YAML::convert<int>::decode(node, anInt)) {
+            return anInt;
+          }
+          else if (YAML::convert<double>::decode(node, aDouble)) {
+            return aDouble;
+          }
+          else if (YAML::convert<bool>::decode(node, aBool)) {
+            return aBool;
+          }
+          else {
+            return node.as<std::string>();
+          }
+          break;
+        }
+      case YAML::NodeType::Map:
+        {
+          dict map;
+          for (const auto it: node) {
+            const std::string key = it.first.as<std::string>();
+            map[key] = yaml_to_any(it.second);
+          }
+          return map;
+        }
+      default:
+        // Sequence, Undefined, Null, whatevs
+        return nullptr;
+        break;
     }
   }
 } // namespace mikado

@@ -22,6 +22,9 @@ ADD_TEST(linearTestMpi3
   )
 TARGET_LINK_LIBRARIES(${LINEARTEST_EXECUTABLE} ${internal_LIBS})
 
+# copy over yaml file
+configure_file(nonlinear-config.yml nonlinear-config.yml COPYONLY)
+
 SET(NONLINEARTEST_EXECUTABLE "nonlinearTest")
 ADD_EXECUTABLE(${NONLINEARTEST_EXECUTABLE} nonlinear.cpp main.cpp)
 ADD_TEST(nonlinearTestSerial ${NONLINEARTEST_EXECUTABLE})
