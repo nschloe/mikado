@@ -115,12 +115,15 @@ namespace mikado
           int anInt;
           double aDouble;
           bool aBool;
-          if (YAML::convert<int>::decode(node, anInt))
+          if (YAML::convert<int>::decode(node, anInt)) {
             return anInt;
-          else if (YAML::convert<double>::decode(node, aDouble))
+          }
+          else if (YAML::convert<double>::decode(node, aDouble)) {
             return aDouble;
-          else if (YAML::convert<bool>::decode(node, aBool))
+          }
+          else if (YAML::convert<bool>::decode(node, aBool)) {
             return aBool;
+          }
           else {
             return node.as<std::string>();
           }
