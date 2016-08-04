@@ -89,16 +89,16 @@ mikado::linear_solve(
 Given a model of type `Thyra::ModelEvaluatorDefaultBase<double>`, solving a
 nonlinear equation system is as easy as
 ```c++
-  const auto model = std::make_shared<your_model>(
-    // ...
-  );
+const auto model = std::make_shared<your_model>(
+  // ...
+);
 
-  const auto sol = mikado::nonlinear_solve(
-      model,
-      {
-        {"method", "Newton"}
-      }
-      );
+const auto sol = mikado::nonlinear_solve(
+    model,
+    {
+      {"method", "Newton"}
+    }
+    );
 ```
 This uses [NOX](https://trilinos.org/packages/nox-and-loca/); solver options
 can be taken from
@@ -107,63 +107,63 @@ can be taken from
 Numerical parameter continuation via LOCA can be done in a similarly
 straightforward way. An example with various parameters:
 ```c++
-  const auto model = std::make_shared<your_model>(
-    // ...
-  );
+const auto model = std::make_shared<your_model>(
+  // ...
+);
 
-  // optionally specify your 
-  const auto saver = std::make_shared<your_data_saver>(
-    // ...
-  );
+// optionally specify your 
+const auto saver = std::make_shared<your_data_saver>(
+  // ...
+);
 
-  mikado::parameter_continuation(
-      model, saver,
-      {
-        {"NOX", dict{
-          {"Status Tests", dict{
-            {"Test Type", "NormF"},
-            {"Norm Type", "Two Norm"},
-            {"Tolerance", 1.0e-8}
-          }},
-          {"Printing", dict{
-           {"Output Information", dict{
-             {"Details", true},
-             {"Outer Iteration", true},
-             {"Outer Iteration Status Test", true},
-             {"Inner Iteration", true},
-             {"Linear Solver Details", true},
-             {"Parameters", true},
-             {"Warning", true},
-             {"Debug", true},
-             {"Test Details", true},
-             {"Error", true},
-             {"Stepper Iteration", true},
-             {"Stepper Details", true},
-             {"Stepper Parameters", true}
-           }}
-          }}
+mikado::parameter_continuation(
+    model, saver,
+    {
+      {"NOX", dict{
+        {"Status Tests", dict{
+          {"Test Type", "NormF"},
+          {"Norm Type", "Two Norm"},
+          {"Tolerance", 1.0e-8}
         }},
-        {"LOCA", dict{
-          {"Predictor", dict{
-            {"Method", "Tangent"}
-          }},
-          {"Stepper", dict{
-            {"Continuation Method", "Arc Length"},
-            {"Continuation Parameter", "alpha"},
-            {"Initial Value", 1.0},
-            {"Min Value", 0.0},
-            {"Max Value", 3.0},
-            {"Max Nonlinear Iterations", 5},
-          }},
-          {"Step Size", dict{
-            {"Initial Step Size", 1.0e-1},
-            {"Min Step Size", 1.0e-5},
-            {"Max Step Size", 5.0e-1},
-            {"Aggressiveness", 0.1}
-          }}
+        {"Printing", dict{
+         {"Output Information", dict{
+           {"Details", true},
+           {"Outer Iteration", true},
+           {"Outer Iteration Status Test", true},
+           {"Inner Iteration", true},
+           {"Linear Solver Details", true},
+           {"Parameters", true},
+           {"Warning", true},
+           {"Debug", true},
+           {"Test Details", true},
+           {"Error", true},
+           {"Stepper Iteration", true},
+           {"Stepper Details", true},
+           {"Stepper Parameters", true}
+         }}
         }}
-      }
-      );
+      }},
+      {"LOCA", dict{
+        {"Predictor", dict{
+          {"Method", "Tangent"}
+        }},
+        {"Stepper", dict{
+          {"Continuation Method", "Arc Length"},
+          {"Continuation Parameter", "alpha"},
+          {"Initial Value", 1.0},
+          {"Min Value", 0.0},
+          {"Max Value", 3.0},
+          {"Max Nonlinear Iterations", 5},
+        }},
+        {"Step Size", dict{
+          {"Initial Step Size", 1.0e-1},
+          {"Min Step Size", 1.0e-5},
+          {"Max Step Size", 5.0e-1},
+          {"Aggressiveness", 0.1}
+        }}
+      }}
+    }
+    );
 ```
 
 _ProTip_
