@@ -74,7 +74,7 @@ mikado::linear_solve(
 mikado::linear_solve(
     A, b, x, dict{
       {"package", "MueLu"},
-      {"preconditioner parameters", dict{
+      {"parameters", dict{
         {"cycle type", "W"}
       }}
       }
@@ -248,7 +248,7 @@ make install
 Compile mikado as usual and run `ctest` in the build directory.
 
 #### Static analyis
-clang++ offers excellent very good static code analysis. To run it, configure
+clang++ offers very good static code analysis. To run it, configure
 mikado to be built with clang++,
 ```
 OMPI_CXX=clang++ \
