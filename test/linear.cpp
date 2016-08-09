@@ -213,10 +213,7 @@ TEST_CASE("Belos solver with Ifpack2 preconditioner", "[belos ifpack2]")
       *A, b, x, dict{
         {"package", std::string("Belos")},
         {"method", std::string("Pseudo Block GMRES")},
-        {"preconditioner", std::string("Ifpack2")},
-        {"preconditioner parameters", dict{
-          {"Overlap", 0}
-        }}
+        {"preconditioner", std::string("Ifpack2")}
       }
       );
 

@@ -164,8 +164,8 @@ linear_solve_belos(
       // Setting the getValidParameters explicitly here is necessary because
       // Ifpack2 doesn't do that automatically on older Trilinos versions; cf.
       // <https://github.com/trilinos/Trilinos/issues/535>.
-      auto pp = Teuchos::rcp_const_cast<Teuchos::ParameterList>(factory->getValidParameters());
-      factory->setParameterList(pp);
+      auto prec_p = Teuchos::rcp_const_cast<Teuchos::ParameterList>(factory->getValidParameters());
+      factory->setParameterList(prec_p);
     }
 
     const auto prec = factory->createPrec();
