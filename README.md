@@ -68,6 +68,8 @@ mikado::linear_solve(
     ```
     Solver parameters are different from method to method; see, e.g.,
     [here](https://trilinos.org/docs/dev/packages/belos/doc/html/classBelos_1_1PseudoBlockGmresSolMgr.html).
+    [Ifpack2](https://trilinos.org/packages/ifpack2/) also works as a
+    preconditioner.
 
 * [*MueLu*](https://trilinos.org/packages/muelu/)
     ```c++
