@@ -138,30 +138,33 @@ linear_solve_belos(
       any_to_string(solver_params.at("preconditioner"));
     Teuchos::RCP<Thyra::PreconditionerFactoryBase<SC>> factory;
     // https://github.com/trilinos/Trilinos/issues/535
-    // if (prec_type == "Ifpack2") {
-    //   factory = Teuchos::rcp(
-    //       new Thyra::Ifpack2PreconditionerFactory<Tpetra::CrsMatrix<SC,LO,GO>>()
-    //       );
-    // } else
-    if (prec_type == "MueLu") {
+    if (prec_type == "Ifpack2") {
+      factory = Teuchos::rcp(
+          new Thyra::Ifpack2PreconditionerFactory<Tpetra::CrsMatrix<SC,LO,GO>>()
+          );
+    } else if (prec_type == "MueLu") {
       factory = Teuchos::rcp(
           new Thyra::MueLuPreconditionerFactory<SC,LO,GO>()
           );
     } else {
       TEUCHOS_TEST_FOR_EXCEPT_MSG(
           true,
-          "Unknown preconditioner \"" << prec_type << "\". Valid values: \"MueLu\"."
+          "Unknown preconditioner \"" << prec_type << "\". Valid values: \"Ifpack2\", \"MueLu\"."
           );
     }
 
-    // TODO isCompatible
-    // TEUCHOS_ASSERT(factory->isCompatible(*thyraA));
     if (solver_params.find("preconditioner parameters") != solver_params.end()) {
       const auto & prec_params = boost::any_cast<std::map<std::string,boost::any>>(
           solver_params.at("preconditioner parameters")
           );
       auto prec_p = Teuchos::rcp(new Teuchos::ParameterList());
       std_map_to_teuchos_list(prec_params, *prec_p);
+      factory->setParameterList(prec_p);
+    } else {
+      // Setting the getValidParameters explicitly here is necessary because
+      // Ifpack2 doesn't do that automatically on older Trilinos versions; cf.
+      // <https://github.com/trilinos/Trilinos/issues/535>.
+      auto prec_p = Teuchos::rcp_const_cast<Teuchos::ParameterList>(factory->getValidParameters());
       factory->setParameterList(prec_p);
     }
 
