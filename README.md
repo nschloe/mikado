@@ -29,61 +29,62 @@ Available solvers with examples:
 (Note that for older versions of Boost, you might need to wrap the strings in
 `std::string()`.)
 
+
 * [*Amesos2*](https://trilinos.org/packages/amesos2/)
-    ```c++
-using dict = std::map<std::string, boost::any>;
-mikado::linear_solve(
-    A, b, x, dict{
-      {"package", "Amesos2"},
-      {"method", "SuperLu"},
-      {"parameters", dict{
-        {"IterRefine", "SLU_DOUBLE"},
-        {"SymmetricMode", true}
-      }}
-    }
-    );
-    ```
-    Check out
-    [the Amesos2 parameter documentation](https://trilinos.org/docs/dev/packages/amesos2/doc/html/group__amesos2__solver__parameters.html)
+  ```c++
+  using dict = std::map<std::string, boost::any>;
+  mikado::linear_solve(
+     A, b, x, dict{
+        {"package", "Amesos2"},
+        {"method", "SuperLu"},
+        {"parameters", dict{
+          {"IterRefine", "SLU_DOUBLE"},
+          {"SymmetricMode", true}
+        }}
+      }
+      );
+  ```
+  Check out
+  [the Amesos2 parameter documentation](https://trilinos.org/docs/dev/packages/amesos2/doc/html/group__amesos2__solver__parameters.html)
     for more details.
 
 * [*Belos*](https://trilinos.org/packages/belos/)
-    ```c++
-mikado::linear_solve(
-    A, b, x, dict{
-      {"package", "Belos"},
-      {"method", "Pseudo Block GMRES"},
-      {"parameters", dict{
-        {"Convergence Tolerance", 1.0e-10},
-        {"Output Frequency", 1},
-        {"Output Style", 1},
-        {"Verbosity", 33}
-      }},
-      {"preconditioner", "MueLu"},
-      {"preconditioner parameters", dict{
-        {"cycle type", "W"}
-      }}
-    }
-    );
-    ```
-    Solver parameters are different from method to method; see, e.g.,
-    [here](https://trilinos.org/docs/dev/packages/belos/doc/html/classBelos_1_1PseudoBlockGmresSolMgr.html).
-    [Ifpack2](https://trilinos.org/packages/ifpack2/) also works as a
-    preconditioner.
+  ```c++
+  mikado::linear_solve(
+      A, b, x, dict{
+        {"package", "Belos"},
+        {"method", "Pseudo Block GMRES"},
+        {"parameters", dict{
+          {"Convergence Tolerance", 1.0e-10},
+          {"Output Frequency", 1},
+          {"Output Style", 1},
+          {"Verbosity", 33}
+        }},
+        {"preconditioner", "MueLu"},
+        {"preconditioner parameters", dict{
+          {"cycle type", "W"}
+        }}
+      }
+      );
+  ```
+  Solver parameters are different from method to method; see, e.g.,
+  [here](https://trilinos.org/docs/dev/packages/belos/doc/html/classBelos_1_1PseudoBlockGmresSolMgr.html).
+  [Ifpack2](https://trilinos.org/packages/ifpack2/) also works as a
+  preconditioner.
 
 * [*MueLu*](https://trilinos.org/packages/muelu/)
-    ```c++
-mikado::linear_solve(
-    A, b, x, dict{
-      {"package", "MueLu"},
-      {"parameters", dict{
-        {"cycle type", "W"}
-      }}
-      }
-    );
-    ```
-    [The MueLu User Guide](https://trilinos.org/wordpress/wp-content/uploads/2015/05/MueLu_Users_Guide_Trilinos12_0.pdf)
-    provides full options documentation.
+  ```c++
+  mikado::linear_solve(
+      A, b, x, dict{
+        {"package", "MueLu"},
+        {"parameters", dict{
+          {"cycle type", "W"}
+        }}
+        }
+      );
+  ```
+  [The MueLu User Guide](https://trilinos.org/wordpress/wp-content/uploads/2015/05/MueLu_Users_Guide_Trilinos12_0.pdf)
+  provides full options documentation.
 
 
 #### Nonlinear solvers
