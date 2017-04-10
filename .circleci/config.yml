@@ -7,7 +7,7 @@ jobs:
       - image: ubuntu:16.04
     steps:
       - run: apt-get update
-      - run: apt-get install -y git trilinos-all-dev cmake catch libboost-dev libyaml-cpp-dev cppcheck libopenmpi-dev openmpi-bin g++ libptscotch-dev libmumps-dev libsuperlu-dev libtbb-dev libhdf5-openmpi-dev liblapack-dev binutils-dev
+      - run: apt-get install -y git trilinos-all-dev cmake catch libboost-dev libyaml-cpp-dev cppcheck libopenmpi-dev openmpi-bin g++ libptscotch-dev libmumps-dev libsuperlu-dev libtbb-dev libhdf5-openmpi-dev liblapack-dev binutils-dev libiberty-dev
       - checkout
       - run: cppcheck --enable=all .
       # configure:
