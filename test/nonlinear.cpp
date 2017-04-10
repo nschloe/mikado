@@ -379,7 +379,7 @@ private:
   }
 
 private:
-  const Teuchos::RCP<const Tpetra::Comm<int>> comm_;
+  const Teuchos::RCP<const Teuchos::Comm<int>> comm_;
   const Teuchos::RCP<jac_sqrt_alpha> jac_;
   const Teuchos::RCP<const Thyra::VectorSpaceBase<double>> space_;
   Teuchos::RCP<const Tpetra::Map<int,int>> p_map_;
