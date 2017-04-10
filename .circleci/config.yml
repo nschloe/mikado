@@ -7,9 +7,9 @@ jobs:
       - image: ubuntu:16.04
     steps:
       - run: apt-get update
-      - run: apt-get install -y git trilinos-all-dev cmake catch libboost-dev libyaml-cpp-dev
-      - run: apt install -y cppcheck && cppcheck --enable=all .
+      - run: apt-get install -y git trilinos-all-dev cmake catch libboost-dev libyaml-cpp-dev cppcheck
       - checkout
+      - run: cppcheck --enable=all .
       # configure:
       - run: cmake -DBUILD_SHARED_LIBS:BOOL=ON -DENABLE_GCOV:BOOL=ON -DCMAKE_CXX_COMPILER:STRING=mpicxx -DCMAKE_SHARED_LINKER_FLAGS="$CMAKE_SHARED_LINKER_FLAGS -Wl,--no-undefined" .
       # build:
