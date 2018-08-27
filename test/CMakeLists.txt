@@ -17,9 +17,9 @@ SET(LINEARTEST_EXECUTABLE "linearTest")
 ADD_EXECUTABLE (${LINEARTEST_EXECUTABLE} linear.cpp main.cpp)
 # add tests
 ADD_TEST(linearTestSerial ${LINEARTEST_EXECUTABLE})
-# allw root for docker
+# allow root for docker
 ADD_TEST(linearTestMpi3
-  ${Trilinos_MPI_EXEC} --allow-run-as-root --noprefix ${Trilinos_MPI_EXEC_NUMPROCS_FLAG} 3 ${LINEARTEST_EXECUTABLE}
+  ${Trilinos_MPI_EXEC} --allow-run-as-root -oversubscribe --noprefix ${Trilinos_MPI_EXEC_NUMPROCS_FLAG} 3 ${LINEARTEST_EXECUTABLE}
   )
 TARGET_LINK_LIBRARIES(${LINEARTEST_EXECUTABLE} ${internal_LIBS})
 

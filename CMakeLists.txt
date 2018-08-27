@@ -16,7 +16,7 @@ ENDIF()
 
 set(Mikado_MAJOR_VERSION 0)
 set(Mikado_MINOR_VERSION 1)
-set(Mikado_PATCH_VERSION 0)
+set(Mikado_PATCH_VERSION 1)
 set(
   Mikado_VERSION
   ${Mikado_MAJOR_VERSION}.${Mikado_MINOR_VERSION}.${Mikado_PATCH_VERSION}
