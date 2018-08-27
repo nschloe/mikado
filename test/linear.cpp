@@ -307,9 +307,7 @@ TEST_CASE("no solver", "[no solver]")
   x.putScalar(0.0);
 
   REQUIRE_THROWS(
-    mikado::linear_solve(
-      *A, b, x, dict{}
-      );
+    mikado::linear_solve(*A, b, x, dict{})
     );
 }
 // ============================================================================
@@ -330,7 +328,7 @@ TEST_CASE("invalid solver", "[invalid]")
       *A, b, x, dict{
         {"package", std::string("invalid")}
       }
-      );
+      )
     );
 }
 // ===========================================================================
@@ -353,7 +351,7 @@ TEST_CASE("Belos solver with invalid preconditioner", "[belos invalid]")
           {"method", std::string("Pseudo Block GMRES")},
           {"preconditioner", std::string("invalid")}
         }
-        );
+        )
   );
 }
 // ============================================================================
